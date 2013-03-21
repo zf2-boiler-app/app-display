@@ -1,0 +1,4 @@
+app-templating
+==============
+
+Templating module
