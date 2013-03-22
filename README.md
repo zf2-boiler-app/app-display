@@ -1,4 +1,6 @@
-app-templating
+Display module
 ==============
 
-Templating module
+- Templating
+- Assets 
+- Twitter bootstrap
