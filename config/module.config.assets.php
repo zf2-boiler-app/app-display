@@ -1,5 +1,8 @@
 <?php
 return array(
+	'cachePath' => '@zfRootPath/public/assets/cache',
+	'assetsPath' => '@zfRootPath/public/assets',
+	'cacheUrl' => '@zfBaseUrl/assets/cache/',
 	'assets' => array(
 		'less' => array(
 			__DIR__ . '/../assets/less/global.less',

@@ -55,6 +55,7 @@
         "zendframework/zendframework": "dev-master",
         "neilime/zf2-assets-bundle": "dev-master",
         "neilime/zf2-twb-bundle": "dev-master",
+        "neilime/zf2-translator-tools": "dev-master",
         
         "fortawesome/font-awesome": "dev-master",
         "fabiomcosta/mootools-meio-mask": "dev-master",
