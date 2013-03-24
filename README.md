@@ -15,6 +15,11 @@ Requirements
 ------------
 
 * [Zend Framework 2](https://github.com/zendframework/zf2) (latest master)
+* [AssetsBundle](https://github.com/neilime/zf2-assets-bundle) (latest master)
+* [Font Awesome](https://github.com/fortawesome/font-awesome) (latest master)
+* [MeioMask](https://github.com/fabiomcosta/mootools-meio-mask) (latest master)
+* [iFrameFormRequest](https://github.com/arian/iFrameFormRequest) (latest master)
+* [Form.PasswordStrength](https://github.com/nak5ive/Form.PasswordStrength) (latest master)
 
 Installation
 ------------

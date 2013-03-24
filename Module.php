@@ -1,5 +1,5 @@
 <?php
-namespace Templating;
+namespace BoilerAppDisplay;
 class Module{
 
 	/**

@@ -1,5 +1,5 @@
 <?php
-namespace Templating\Mvc\Controller;
+namespace BoilerAppDisplay\Mvc\Controller;
 abstract class AbstractActionController extends \AssetsBundle\Mvc\Controller\AbstractActionController{
 	/**
 	 * @var array

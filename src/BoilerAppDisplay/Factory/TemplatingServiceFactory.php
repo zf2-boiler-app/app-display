@@ -1,9 +1,9 @@
 <?php
-namespace Templating\Factory;
+namespace BoilerAppDisplay\Factory;
 class TemplatingServiceFactory implements \Zend\ServiceManager\FactoryInterface{
     public function createService(\Zend\ServiceManager\ServiceLocatorInterface $oServiceLocator){
-        //Configure the logger
+        //Configure the Templating service
         $aConfiguration = $oServiceLocator->get('Config');
-       	return \Templating\Service\TemplatingService::factory(isset($aConfiguration['templating'])?$aConfiguration['templating']:array());
+       	return \BoilerAppDisplay\Service\TemplatingService::factory(isset($aConfiguration['templating'])?$aConfiguration['templating']:array());
     }
 }

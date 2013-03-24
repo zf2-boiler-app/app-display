@@ -1,5 +1,5 @@
 <?php
-namespace Templating\Service;
+namespace BoilerAppDisplay\Service;
 class TemplatingService implements \Zend\EventManager\SharedEventManagerAwareInterface{
 	/**
 	 * @var \Zend\EventManager\SharedEventManagerInterface
@@ -7,7 +7,7 @@ class TemplatingService implements \Zend\EventManager\SharedEventManagerAwareInt
 	protected $sharedEventManager;
 
 	/**
-	 * @var \Templating\Service\TemplatingConfiguration
+	 * @var \BoilerAppDisplay\Service\TemplatingConfiguration
 	 */
 	protected $configuration;
 
@@ -27,37 +27,37 @@ class TemplatingService implements \Zend\EventManager\SharedEventManagerAwareInt
 	 * Instantiate a Templating service
 	 * @param array|Traversable $oOptions
 	 * @throws \InvalidArgumentException
-	 * @return \Templating\Service\TemplatingService
+	 * @return \BoilerAppDisplay\Service\TemplatingService
 	 */
 	public static function factory($oOptions){
 		if($oOptions instanceof \Traversable)$oOptions = \Zend\Stdlib\ArrayUtils::iteratorToArray($oOptions);
 		elseif(!is_array($oOptions))throw new \InvalidArgumentException(__METHOD__.' expects an array or Traversable object; received "'.(is_object($oOptions)?get_class($oOptions):gettype($oOptions)).'"');
 		$oTemplatingService = new static();
-		return $oTemplatingService->setConfiguration(new \Templating\Service\TemplatingConfiguration($oOptions));
+		return $oTemplatingService->setConfiguration(new \BoilerAppDisplay\Service\TemplatingConfiguration($oOptions));
 	}
 
 	/**
-	 * @param \Templating\Service\TemplatingConfiguration $oConfiguration
-	 * @return \Templating\Service\TemplatingService
+	 * @param \BoilerAppDisplay\Service\TemplatingConfiguration $oConfiguration
+	 * @return \BoilerAppDisplay\Service\TemplatingService
 	 */
-	public function setConfiguration(\Templating\Service\TemplatingConfiguration $oConfiguration){
+	public function setConfiguration(\BoilerAppDisplay\Service\TemplatingConfiguration $oConfiguration){
 		$this->configuration = $oConfiguration;
 		return $this;
 	}
 
 	/**
 	 * @throws \LogicException
-	 * @return \Templating\Service\TemplatingConfiguration
+	 * @return \BoilerAppDisplay\Service\TemplatingConfiguration
 	 */
 	public function getConfiguration(){
-		if($this->configuration instanceof \Templating\Service\TemplatingConfiguration)return $this->configuration;
+		if($this->configuration instanceof \BoilerAppDisplay\Service\TemplatingConfiguration)return $this->configuration;
 		throw new \LogicException('Configuration is undefined');
 	}
-
+	
 	/**
 	 * Inject a SharedEventManager instance
 	 * @param \Zend\EventManager\SharedEventManagerInterface $oSharedEventManager
-	 * @return \Logger\Service\LoggerService
+	 * @return \BoilerAppDisplay\Service\TemplatingService
 	 */
 	public function setSharedManager(\Zend\EventManager\SharedEventManagerInterface $oSharedEventManager){
 		$this->sharedEventManager = $oSharedEventManager;
@@ -76,7 +76,7 @@ class TemplatingService implements \Zend\EventManager\SharedEventManagerAwareInt
 
 	/**
 	 * Remove any shared collections
-	 * @return \Logger\Service\LoggerService
+	 * @return \BoilerAppDisplay\Service\TemplatingService
 	 */
 	public function unsetSharedManager(){
 		$this->sharedEventManager = null;
@@ -85,7 +85,7 @@ class TemplatingService implements \Zend\EventManager\SharedEventManagerAwareInt
 
 	/**
 	 * @param \Zend\Mvc\MvcEvent $oEvent
-	 * @return \Templating\Service\TemplatingService
+	 * @return \BoilerAppDisplay\Service\TemplatingService
 	 */
 	protected function setCurrentEvent(\Zend\Mvc\MvcEvent $oEvent){
 		$this->currentEvent = $oEvent;
@@ -93,7 +93,7 @@ class TemplatingService implements \Zend\EventManager\SharedEventManagerAwareInt
 	}
 
 	/**
-	 * @return \Templating\Service\TemplatingService
+	 * @return \BoilerAppDisplay\Service\TemplatingService
 	 */
 	protected function unsetCurrentEvent(){
 		$this->currentEvent = null;
@@ -112,7 +112,7 @@ class TemplatingService implements \Zend\EventManager\SharedEventManagerAwareInt
 	/**
 	 * Define layout template
 	 * @param \Zend\Mvc\MvcEvent $oEvent
-	 * @return \Templating\Service\TemplatingService
+	 * @return \BoilerAppDisplay\Service\TemplatingService
 	 */
 	public function buildLayoutTemplate(\Zend\Mvc\MvcEvent $oEvent){
 		$oRequest = $oEvent->getRequest();
