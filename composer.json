@@ -64,7 +64,7 @@
     },
     "autoload": {
         "psr-0": {
-            "TwbBundle": "src"
+            "BoilerAppDisplay": "src"
         },
         "classmap" : ["Module.php"]
     }
