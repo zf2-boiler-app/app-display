@@ -1,7 +1,6 @@
 <?php
-namespace Application\Translator;
-use \Zend\I18n\Translator\Translator as OriginalTranslator;
-class Translator extends OriginalTranslator{
+namespace BoilerAppDisplay\Translator;
+class Translator extends \Zend\I18n\Translator\Translator{
 
 	/**
 	 * Retrieve available messages
@@ -12,8 +11,8 @@ class Translator extends OriginalTranslator{
 	public function getMessages($sLocale = null,$sTextDomain = 'default'){
 		$sLocale = $sLocale?:$this->getLocale();
 		if(!isset($this->messages[$sTextDomain][$sLocale]))$this->loadMessages($sTextDomain, $sLocale);
-		if($this->messages[$sTextDomain][$sLocale] instanceof \Zend\I18n\Translator\TextDomain)return $this->messages[$sTextDomain][$sLocale]->getArrayCopy();
+		if(isset($this->messages[$sTextDomain][$sLocale]) && $this->messages[$sTextDomain][$sLocale] instanceof \Zend\I18n\Translator\TextDomain)return $this->messages[$sTextDomain][$sLocale]->getArrayCopy();
 		if(null !== ($sFallbackLocale = $this->getFallbackLocale()) && $sLocale !== $sFallbackLocale)$this->loadMessages($sTextDomain, $sFallbackLocale);
-		return $this->messages[$sTextDomain][$sFallbackLocale] instanceof \Zend\I18n\Translator\TextDomain?$this->messages[$sTextDomain][$sFallbackLocale]->getArrayCopy():array();
+		return isset($this->messages[$sTextDomain][$sFallbackLocale]) && $this->messages[$sTextDomain][$sFallbackLocale] instanceof \Zend\I18n\Translator\TextDomain?$this->messages[$sTextDomain][$sFallbackLocale]->getArrayCopy():array();
 	}
 }

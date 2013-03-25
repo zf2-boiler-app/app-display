@@ -10,7 +10,7 @@ class JsControllerHelper extends \Zend\View\Helper\AbstractHelper implements \Ze
 	/**
 	 * @var array
 	 */
-	private $routes;
+	private $routes = array();
 
 	/**
 	 * @var \Zend\ServiceManager\ServiceLocatorInterface
@@ -18,13 +18,28 @@ class JsControllerHelper extends \Zend\View\Helper\AbstractHelper implements \Ze
 	private $serviceLocator;
 
 	/**
+	 * @var array
+	 */
+	private $translationMessages;
+
+	/**
 	 * Constructor
 	 * @param string $oRouteMatch
 	 * @param array $aRoutes
 	 */
-	public function __construct($oRouteMatch = null,array $aRoutesConfig = array(),\Zend\ServiceManager\ServiceLocatorInterface $oServiceLocator){
-		if($oRouteMatch instanceof \Zend\Mvc\Router\Http\RouteMatch)$this->routeMatch = $oRouteMatch;
-		$this->setServiceLocator($oServiceLocator)->setRoutes($aRoutesConfig);
+	public function __construct(\Zend\Mvc\Router\Http\RouteMatch $oRouteMatch = null,array $aRoutesConfig = array(),\Zend\ServiceManager\ServiceLocatorInterface $oServiceLocator = null){
+		if($oRouteMatch)$this->setRouteMatch($oRouteMatch);
+		if($aRoutesConfig)$this->setRoutes($aRoutesConfig);
+		if($oServiceLocator)$this->setServiceLocator($oServiceLocator);
+	}
+
+	/**
+	 * @param \Zend\Mvc\Router\Http\RouteMatch $oRouteMatch
+	 * @return \BoilerAppDisplay\View\Helper\JsControllerHelper
+	 */
+	public function setRouteMatch(\Zend\Mvc\Router\Http\RouteMatch $oRouteMatch){
+		$this->routeMatch = $oRouteMatch;
+		return $this;
 	}
 
 	/**
@@ -40,6 +55,15 @@ class JsControllerHelper extends \Zend\View\Helper\AbstractHelper implements \Ze
 			if(isset($aInfosRoute['child_routes']))$this->setRoutes($aInfosRoute['child_routes'],$sRouteName);
 		}
 		return $this;
+	}
+
+	/**
+	 * @throws \LogicException
+	 * @return array
+	 */
+	public function getRoutes(){
+		if(is_array($this->routes))return $this->routes;
+		throw new \LogicException('Routes are undefined');
 	}
 
 	/**
@@ -65,11 +89,14 @@ class JsControllerHelper extends \Zend\View\Helper\AbstractHelper implements \Ze
 	 * @return array
 	 */
 	protected function getTranslationMessages(){
-		$oTranslator = $this->getServiceLocator()->getServiceLocator()->get('translator');
-		return array_merge(
-			$oTranslator->getMessages(),
-			$oTranslator->getMessages(null,'validator')
-		);
+		if(is_array($this->translationMessages))return $this->translationMessages;
+		else{
+			$oTranslator = $this->getServiceLocator()->getServiceLocator()->get('translator');
+			return $this->translationMessages = array_merge(
+				$oTranslator->getMessages(),
+				$oTranslator->getMessages(null,'validator')
+			);
+		}
 	}
 
 	/**
@@ -87,7 +114,7 @@ class JsControllerHelper extends \Zend\View\Helper\AbstractHelper implements \Ze
 			var oControllerOptions = {
 				\'locale\':'.$this->getServiceLocator()->get('escapeJson')->__invoke(str_ireplace('_','-',$this->getServiceLocator()->getServiceLocator()->get('translator')->getLocale())).',
 	            \'texts\':'.$this->getServiceLocator()->get('escapeJson')->__invoke($this->getTranslationMessages()).',
-				\'routes\':'.$this->getServiceLocator()->get('escapeJson')->__invoke($this->routes).',
+				\'routes\':'.$this->getServiceLocator()->get('escapeJson')->__invoke($this->getRoutes()).',
 			};
 			var oController;
 			if(\'undefined\' !== typeof '.$sControllerActionName.')oController = new '.$sControllerActionName.'(oControllerOptions);

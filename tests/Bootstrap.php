@@ -37,6 +37,11 @@ class Bootstrap{
         ),$aTestConfig);
         static::$serviceManager = new \Zend\ServiceManager\ServiceManager(new \Zend\Mvc\Service\ServiceManagerConfig());
         static::$serviceManager->setService('ApplicationConfig',static::$config)->get('ModuleManager')->loadModules();
+
+        $aConfiguration = \Zend\Stdlib\ArrayUtils::merge(static::$serviceManager->get('Config'),include __DIR__.'/configuration.php');
+        $bAllowOverride = static::$serviceManager->getAllowOverride();
+        if(!$bAllowOverride)static::$serviceManager->setAllowOverride(true);
+        static::$serviceManager->setService('Config',$aConfiguration)->setAllowOverride($bAllowOverride);
     }
 
     /**

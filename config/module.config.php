@@ -4,7 +4,7 @@ return array(
 	'service_manager' => array(
 		'factories' => array(
 			//Services
-			'TemplatingService' => '\BoilerAppDisplay\Factory\TemplatingServiceFactory',
+			'TemplatingService' => 'BoilerAppDisplay\Factory\TemplatingServiceFactory',
 			'translator' => 'BoilerAppDisplay\Translator\TranslatorServiceFactory',
 		)
 	),
@@ -15,10 +15,10 @@ return array(
 			}
 		),
 		'invokables' => array(
-			'form' => 'Application\Form\View\Helper\FormHelper',
-			'formElementErrors' => 'Application\Form\View\Helper\FormElementErrors',
-			'escapeJson' => 'Application\View\Helper\EscapeJsonHelper',
-			'jsController' => 'Application\View\Helper\JsControllerHelper',
+			'form' => 'BoilerAppDisplay\Form\View\Helper\FormHelper',
+			'formElementErrors' => 'BoilerAppDisplay\Form\View\Helper\FormElementErrors',
+			'escapeJson' => 'BoilerAppDisplay\View\Helper\EscapeJsonHelper',
+			'jsController' => 'BoilerAppDisplay\View\Helper\JsControllerHelper',
 		)
 	),
 	'view_manager' => array(
