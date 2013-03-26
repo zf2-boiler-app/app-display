@@ -1,6 +1,5 @@
 <?php
 namespace BoilerAppDisplay\Factory;
-use BoilerAppDisplay\View\Helper\JsControllerHelper;
 class JsControllerHelperFactory implements \Zend\ServiceManager\FactoryInterface{
 	/**
 	 * @see \Zend\ServiceManager\FactoryInterface::createService()
@@ -9,10 +8,13 @@ class JsControllerHelperFactory implements \Zend\ServiceManager\FactoryInterface
 	 */
 	public function createService(\Zend\ServiceManager\ServiceLocatorInterface $oServiceLocator){
 		//Instanciate helper
-		$oJsControllerHelper = new JsControllerHelper();
+		$oJsControllerHelper = new \BoilerAppDisplay\View\Helper\JsControllerHelper();
 
-		//Retrieve route match
+		//Retrieve and set Service locator
 		$oServiceManager = $oServiceLocator->getServiceLocator();
+		$oJsControllerHelper->setServiceLocator($oServiceLocator);
+
+		//Retrieve and set route match
 		if(
 			$oServiceManager->has('Application')
 			&& ($oMvcEvent = $oServiceManager->get('Application')->getMvcEvent())
@@ -24,10 +26,10 @@ class JsControllerHelperFactory implements \Zend\ServiceManager\FactoryInterface
 			if($oRouteMatch = $oRouter->match($oRequest))$oJsControllerHelper->setRouteMatch($oRouteMatch);
 		}
 
-		//Retrieve routes config
+		//Retrieve and set routes config
 		$aConfiguration = $oServiceManager->get('Config');
 		if(isset($aConfiguration['router']['routes']))$oJsControllerHelper->setRoutes($aConfiguration);
 
-		return $oJsControllerHelper->setServiceLocator($oServiceLocator);
+		return $oJsControllerHelper;
     }
 }

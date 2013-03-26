@@ -1,5 +1,13 @@
 <?php
 return array(
+	'routes' => array(
+		'Home' => array(
+			'type' => 'Zend\Mvc\Router\Http\Literal',
+			'options' => array(
+				'route' => '/'
+			)
+		)
+	),
 	'view_manager' => array(
 		'doctype' => 'HTML5'
 	),
