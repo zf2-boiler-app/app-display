@@ -6,7 +6,6 @@ class Module{
 	 * @param \Zend\Mvc\MvcEvent $oEvent
 	 */
 	public function onBootstrap(\Zend\Mvc\MvcEvent $oEvent){
-		/* @var $oServiceManager \Zend\ServiceManager\ServiceManager */
 		$oServiceManager = $oEvent->getApplication()->getServiceManager();
 
 		//Initialize templating service
@@ -15,14 +14,16 @@ class Module{
 		//Add translation for validators
 		\Zend\Validator\AbstractValidator::setDefaultTranslator($oServiceManager->get('translator'),'validator');
 
+		$oEventManager = $oEvent->getApplication()->getEventManager();
+
 		//Process for render MVC event
-		if($oServiceManager->get('ViewRenderer') instanceof \Zend\View\Renderer\PhpRenderer)$oEventManager->attach(
+		if($oServiceManager->has('ViewRenderer') && $oServiceManager->get('ViewRenderer') instanceof \Zend\View\Renderer\PhpRenderer)$oEventManager->attach(
 			\Zend\Mvc\MvcEvent::EVENT_RENDER,
 			array($this, 'onRender')
 		);
 
 		//Process for error MVC event
-		if($oServiceManager->get('ViewRenderer') instanceof \Zend\View\Renderer\PhpRenderer)$oEventManager->attach(
+		if($oServiceManager->has('ViewRenderer') && $oServiceManager->get('ViewRenderer') instanceof \Zend\View\Renderer\PhpRenderer)$oEventManager->attach(
 			array(\Zend\Mvc\MvcEvent::EVENT_DISPATCH_ERROR,\Zend\Mvc\MvcEvent::EVENT_RENDER_ERROR),
 			array($this, 'onError')
 		);
@@ -41,17 +42,27 @@ class Module{
 			($oView = $oEvent->getResult()) instanceof \Zend\View\Model\ModelInterface
 			&& !$oView->terminate()
 		){
-			//Js Controller view helper
-			$oServiceManager = $oEvent->getApplication()->getServiceManager();
-			$aConfiguration = $oServiceManager->get('Config');
-			$oEvent->getApplication()->getServiceManager()->get('viewhelpermanager')->setFactory('jsController', function() use($oEvent,$aConfiguration,$oServiceManager){
-				return new \BoilerAppDisplay\View\Helper\JsControllerHelper($oEvent->getRouteMatch(),$aConfiguration['router']['routes'],$oServiceManager);
-			});
-
 			//Set matchedRouteName var to layout
-			$oRouteMatch= $oEvent->getRouteMatch();
+			$oRouteMatch = $oEvent->getRouteMatch();
 			if($oRouteMatch instanceof \Zend\Mvc\Router\RouteMatch)$oEvent->getViewModel()->setVariable('matchedRouteName',$oRouteMatch->getMatchedRouteName());
 		}
+	}
+
+	/**
+	 * @param \Zend\Mvc\MvcEvent $oEvent
+	 */
+	public function onError(\Zend\Mvc\MvcEvent $oEvent){
+		$oRequest = $oEvent->getRequest();
+		if($oEvent->getName() === 'render.error'){
+			if(!($oException = $oEvent->getParam('exception')) instanceof \Exception)$oException = new \RuntimeException($oEvent->getError());
+			//Try to log the error
+			$oServiceManager = $oEvent->getApplication()->getServiceManager();
+			if($oServiceManager->has('Logger'))$oServiceManager->get('Logger')->err($oException);
+		}
+		if(
+			(!($oRequest instanceof \Zend\Http\Request) || $oRequest->isXmlHttpRequest())
+			&& ($oResult = $oEvent->getResult()) instanceof \Zend\View\Model\ModelInterface
+		)$oResult->setTerminal(true);
 	}
 
 	/**

@@ -1,15 +1,9 @@
 <?php
 namespace BoilerAppDisplayTest\View\Helper;
 class EscapeJsonHelperTest  extends \PHPUnit_Framework_TestCase{
-	private $configuration = array(
-		'view_manager' => array(
-			'doctype' => 'HTML5'
-		)
-	);
-
 	/**
 	 * @var \BoilerAppDisplay\View\Helper\EscapeJsonHelper
-	*/
+	 */
 	protected $escapeJsonHelper;
 
 	public function setUp(){

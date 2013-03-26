@@ -23,17 +23,6 @@ class JsControllerHelper extends \Zend\View\Helper\AbstractHelper implements \Ze
 	private $translationMessages;
 
 	/**
-	 * Constructor
-	 * @param string $oRouteMatch
-	 * @param array $aRoutes
-	 */
-	public function __construct(\Zend\Mvc\Router\Http\RouteMatch $oRouteMatch = null,array $aRoutesConfig = array(),\Zend\ServiceManager\ServiceLocatorInterface $oServiceLocator = null){
-		if($oRouteMatch)$this->setRouteMatch($oRouteMatch);
-		if($aRoutesConfig)$this->setRoutes($aRoutesConfig);
-		if($oServiceLocator)$this->setServiceLocator($oServiceLocator);
-	}
-
-	/**
 	 * @param \Zend\Mvc\Router\Http\RouteMatch $oRouteMatch
 	 * @return \BoilerAppDisplay\View\Helper\JsControllerHelper
 	 */

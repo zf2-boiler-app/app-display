@@ -127,7 +127,7 @@ class FormHelper extends \TwbBundle\Form\View\Helper\TwbBundleForm implements \Z
 	protected function getEscapeJsonHelper(){
 		if($this->escapeEscapeJsonHelper)return $this->escapeEscapeJsonHelper;
 		if(method_exists($this->view, 'plugin'))$this->escapeEscapeJsonHelper = $this->view->plugin('escapeJson');
-		if(!$this->escapeEscapeJsonHelper instanceof \Application\View\Helper\EscapeJsonHelper)$this->escapeEscapeJsonHelper = new \Application\View\Helper\EscapeJsonHelper();
+		if(!$this->escapeEscapeJsonHelper instanceof \BoilerAppDisplay\View\Helper\EscapeJsonHelper)$this->escapeEscapeJsonHelper = new \Application\View\Helper\EscapeJsonHelper();
 		return $this->escapeEscapeJsonHelper;
 	}
 

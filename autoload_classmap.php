@@ -1,6 +1,7 @@
 <?php
 return array(
 	//Factories
+	'BoilerAppDisplay\Factory\JsControllerHelperFactory' => __DIR__.'/src/BoilerAppDisplay/Factory/JsControllerHelperFactory.php',
 	'BoilerAppDisplay\Factory\TemplatingServiceFactory' => __DIR__.'/src/BoilerAppDisplay/Factory/TemplatingServiceFactory.php',
 	'BoilerAppDisplay\Factory\TranslatorFactory' => __DIR__ . '/src/BoilerAppDisplay/Factory/TranslatorFactory.php',
 

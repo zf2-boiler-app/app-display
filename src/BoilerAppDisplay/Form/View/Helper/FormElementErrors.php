@@ -1,5 +1,5 @@
 <?php
-namespace Application\Form\View\Helper;
+namespace BoilerAppDisplay\Form\View\Helper;
 class FormElementErrors extends \Zend\Form\View\Helper\FormElementErrors{
 
 	/**
@@ -13,7 +13,7 @@ class FormElementErrors extends \Zend\Form\View\Helper\FormElementErrors{
 		if(isset($aAttributes['class'])){
 			if(!preg_match('/(\s|^)advice(\s|$)/',$aAttributes['class']))$aAttributes['class'] .= ' advice';
 		}
-		else $aAttributes['class'] .= 'advice';
+		else $aAttributes['class'] = 'advice';
     	return parent::render($oElement,$aAttributes);
     }
 }

@@ -1,0 +1,16 @@
+<form action="" method="POST" class="form-horizontal" id="" onsubmit="return false;"><label><span>Label name</span><input name="input-text" placeholder="Type something..." type="text" value=""></label></form>
+<script type="text/javascript">
+			if(document.id){
+				try{
+		
+					var eForm = document.id(null);
+					eForm.get('validator').addEvent('formValidate',function(bIsValid){
+						if(bIsValid)new Form.Request(eForm,eForm.getParent()).send();
+					});
+			
+				}
+			    catch(oException){
+					if(oController != null)alert("error_occurred");
+	    		}
+			}
+		</script>

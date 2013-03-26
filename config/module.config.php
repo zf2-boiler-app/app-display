@@ -12,13 +12,13 @@ return array(
 		'factories' => array(
 			'Social' => function(\Zend\ServiceManager\ServiceManager $oServiceManager){
 				return $oServiceManager->getServiceLocator()->get('social');
-			}
+			},
+			'jsController' => 'BoilerAppDisplay\Factory\JsControllerHelperFactory'
 		),
 		'invokables' => array(
 			'form' => 'BoilerAppDisplay\Form\View\Helper\FormHelper',
 			'formElementErrors' => 'BoilerAppDisplay\Form\View\Helper\FormElementErrors',
 			'escapeJson' => 'BoilerAppDisplay\View\Helper\EscapeJsonHelper',
-			'jsController' => 'BoilerAppDisplay\View\Helper\JsControllerHelper',
 		)
 	),
 	'view_manager' => array(

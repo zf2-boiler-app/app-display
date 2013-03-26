@@ -7,7 +7,6 @@ class JsControllerHelperTest extends \PHPUnit_Framework_TestCase{
 	protected $jsControllerHelper;
 
 	public function setUp(){
-		/* @var $oViewHelperPluginManager \Zend\View\HelperPluginManager */
 		$oViewHelperPluginManager = \BoilerAppDisplayTest\Bootstrap::getServiceManager()->get('view_helper_manager');
 
 		$oRenderer = new \Zend\View\Renderer\PhpRenderer();
