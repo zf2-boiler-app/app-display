@@ -37,10 +37,14 @@ class JsControllerHelper extends \Zend\View\Helper\AbstractHelper implements \Ze
 	 * @return \BoilerAppDisplay\View\Helper\JsController
 	 */
 	public function setRoutes(array $aRoutesConfig,$sRouteParent = null){
-		$oRouter = $this->getServiceLocator()->get('router');
+		$oRouter = $this->getServiceLocator()->getServiceLocator()->get('router');
 		foreach($aRoutesConfig as $sRouteName => $aInfosRoute){
 			if($aInfosRoute['type'] !== 'Zend\Mvc\Router\Http\Literal')continue;
-			$this->routes[$sRouteName = empty($sRouteParent)?$sRouteName:$sRouteParent.'/'.$sRouteName] = $oRouter->assemble(array(), array('name' => $sRouteName));
+
+			if(!empty($sRouteParent))$sRouteName = $sRouteParent.'/'.$sRouteName;
+			if(!$oRouter->hasRoute($sRouteName))continue;
+
+			$this->routes[$sRouteName] = $oRouter->assemble(array(), array('name' => $sRouteName));
 			if(isset($aInfosRoute['child_routes']))$this->setRoutes($aInfosRoute['child_routes'],$sRouteName);
 		}
 		return $this;

@@ -28,7 +28,7 @@ class JsControllerHelperFactory implements \Zend\ServiceManager\FactoryInterface
 
 		//Retrieve and set routes config
 		$aConfiguration = $oServiceManager->get('Config');
-		if(isset($aConfiguration['router']['routes']))$oJsControllerHelper->setRoutes($aConfiguration);
+		if(isset($aConfiguration['router']['routes']))$oJsControllerHelper->setRoutes($aConfiguration['router']['routes']);
 
 		return $oJsControllerHelper;
     }
