@@ -34,7 +34,7 @@ class TemplateConfiguration extends \Zend\Stdlib\AbstractOptions{
 	/**
 	 * @param array $aChildren
 	 * @throws \Exception
-	 * @return \Templating\Service\Template\TemplateConfiguration
+	 * @return \BoilerAppDisplay\Service\Template\TemplateConfiguration
 	 */
 	public function setChildren(array $aChildren){
 		$this->children = $aChildren;

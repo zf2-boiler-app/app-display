@@ -1,6 +1,6 @@
 <?php
 namespace BoilerAppDisplay\Factory;
-class TranslatorServiceFactory implements \Zend\ServiceManager\FactoryInterface{
+class TranslatorFactory implements \Zend\ServiceManager\FactoryInterface{
 	/**
 	 * @see \Zend\ServiceManager\FactoryInterface::createService()
 	 * @param \Zend\ServiceManager\ServiceLocatorInterface $oServiceLocator

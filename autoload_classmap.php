@@ -2,6 +2,7 @@
 return array(
 	//Factories
 	'BoilerAppDisplay\Factory\TemplatingServiceFactory' => __DIR__.'/src/BoilerAppDisplay/Factory/TemplatingServiceFactory.php',
+	'BoilerAppDisplay\Factory\TranslatorFactory' => __DIR__ . '/src/BoilerAppDisplay/Factory/TranslatorFactory.php',
 
 	//Form
 	'BoilerAppDisplay\Form\AbstractForm'                   => __DIR__ . '/src/BoilerAppDisplay/Form/AbstractForm.php',
@@ -19,7 +20,6 @@ return array(
 
 	//Translator
 	'BoilerAppDisplay\Translator\Translator'               => __DIR__ . '/src/BoilerAppDisplay/Translator/Translator.php',
-	'BoilerAppDisplay\Translator\TranslatorServiceFactory' => __DIR__ . '/src/BoilerAppDisplay/Translator/TranslatorServiceFactory.php',
 
 	//View helper
 	'BoilerAppDisplay\View\Helper\EscapeJsonHelper'        => __DIR__ . '/src/BoilerAppDisplay/View/Helper/EscapeJsonHelper.php',

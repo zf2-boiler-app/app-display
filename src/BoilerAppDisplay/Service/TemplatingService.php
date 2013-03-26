@@ -112,6 +112,7 @@ class TemplatingService implements \Zend\EventManager\SharedEventManagerAwareInt
 	/**
 	 * Define layout template
 	 * @param \Zend\Mvc\MvcEvent $oEvent
+	 * @throws \RuntimeException
 	 * @return \BoilerAppDisplay\Service\TemplatingService
 	 */
 	public function buildLayoutTemplate(\Zend\Mvc\MvcEvent $oEvent){
@@ -127,16 +128,14 @@ class TemplatingService implements \Zend\EventManager\SharedEventManagerAwareInt
 		//Define module Name
 
 		/* @var $oRouter \Zend\Mvc\Router\RouteMatch */
-		$oRouter = $this->getCurrentEvent()->getRouteMatch();
-		$sModule = null;
-		if($oRouter instanceof \Zend\Mvc\Router\RouteMatch)$sModule = current(explode('\\',$oRouter->getParam('controller')));
-		if(!$sModule)$sModule = \Templating\Service\TemplatingConfiguration::DEFAULT_TEMPLATE_MAP;
+		if(($oRouter = $this->getCurrentEvent()->getRouteMatch()) instanceof \Zend\Mvc\Router\RouteMatch)$sModule = current(explode('\\',$oRouter->getParam('controller')));
+		if(empty($sModule))$sModule = \BoilerAppDisplay\Service\TemplatingConfiguration::DEFAULT_TEMPLATE_MAP;
 
 		try{
 			//Retrieve template for module
 			$oTemplate = $this->getConfiguration()->hasTemplateMapForModule($sModule)
 				?$this->getConfiguration()->getTemplateMapForModule($sModule)
-				:$this->getConfiguration()->getTemplateMapForModule(\Templating\Service\TemplatingConfiguration::DEFAULT_TEMPLATE_MAP);
+				:$this->getConfiguration()->getTemplateMapForModule(\BoilerAppDisplay\Service\TemplatingConfiguration::DEFAULT_TEMPLATE_MAP);
 
 			//Set layout template and add its children
 			$sTemplate = $oTemplate->getConfiguration()->getTemplate();
@@ -147,7 +146,7 @@ class TemplatingService implements \Zend\EventManager\SharedEventManagerAwareInt
 			);
 		}
 		catch(\Exception $oException){
-			throw new \RuntimeException('Error occured during building layout template process',$oException->getCode(),$oException);
+			throw new \RuntimeException('Error occured during building layout template process : '.$oException->getMessage(),$oException->getCode(),$oException);
 		}
 		//Reset current event
 		return $this->unsetCurrentEvent();

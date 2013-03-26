@@ -1,5 +1,5 @@
 {
-    "name": " zf2-boiler-app/app-display",
+    "name": "zf2-boiler-app/app-display",
     "type": "library",
     "description": "ZF2 BoilerApp Display module",
     "keywords": ["Zend Framework 2","ZF2 Boiler-App","templating","Twitter bootstrap"],

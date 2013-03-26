@@ -1,6 +1,6 @@
 <?php
 namespace BoilerAppDisplay\Service\Template;
-class TemplateService{
+class Template{
 	/**
 	 * @var \BoilerAppDisplay\Service\Template\TemplateConfiguration
 	 */
@@ -42,10 +42,10 @@ class TemplateService{
 				elseif(is_string($oChildrenConfiguration) || is_callable($oChildrenConfiguration))$oChildrenConfiguration = new \BoilerAppDisplay\Service\Template\TemplateConfiguration(array(
 					'template' => $oChildrenConfiguration
 				));
-				if(!($oChildrenConfiguration instanceof \Templating\Service\Template\TemplateConfiguration))throw new \LogicException(sprintf(
-					'% expects an array, Traversable object, string or \Templating\Service\Template\TemplateConfiguration object ; received "%s"',
+				if(!($oChildrenConfiguration instanceof \BoilerAppDisplay\Service\Template\TemplateConfiguration))throw new \LogicException(sprintf(
+					'% expects an array, Traversable object, string or \BoilerAppDisplay\Service\Template\TemplateConfiguration object ; received "%s"',
 					__METHOD__,
-					(is_object($oOptions)?get_class($oChildrenConfiguration):gettype($oChildrenConfiguration))
+					(is_object($oChildrenConfiguration)?get_class($oChildrenConfiguration):gettype($oChildrenConfiguration))
 				));
 				$this->children[$sChildrenName] = new \BoilerAppDisplay\Service\Template\Template($oChildrenConfiguration);
 			}

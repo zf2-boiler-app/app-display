@@ -54,9 +54,9 @@ class TemplatingConfiguration extends \Zend\Stdlib\AbstractOptions{
 			'template' => $oTemplateConfiguration
 		));
 		if(!($oTemplateConfiguration instanceof \BoilerAppDisplay\Service\Template\TemplateConfiguration))throw new \InvalidArgumentException(sprintf(
-			'% expects an array, Traversable object, string or \Templating\Service\Template\TemplateConfiguration object ; received "%s"',
+			'% expects an array, Traversable object, string or \BoilerAppDisplay\Service\Template\TemplateConfiguration object ; received "%s"',
 			__METHOD__,
-			(is_object($oOptions)?get_class($oOptions):gettype($oOptions))
+			(is_object($oTemplateConfiguration)?get_class($oTemplateConfiguration):gettype($oTemplateConfiguration))
 		));
 		$this->templateMap[$sModule] = new \BoilerAppDisplay\Service\Template\Template($oTemplateConfiguration);
 		return $this;

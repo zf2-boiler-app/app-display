@@ -5,12 +5,12 @@ return array(
 		'factories' => array(
 			//Services
 			'TemplatingService' => 'BoilerAppDisplay\Factory\TemplatingServiceFactory',
-			'translator' => 'BoilerAppDisplay\Translator\TranslatorServiceFactory',
+			'Translator' => 'BoilerAppDisplay\Factory\TranslatorFactory',
 		)
 	),
 	'view_helpers' => array(
 		'factories' => array(
-			'social' => function(\Zend\ServiceManager\ServiceManager $oServiceManager){
+			'Social' => function(\Zend\ServiceManager\ServiceManager $oServiceManager){
 				return $oServiceManager->getServiceLocator()->get('social');
 			}
 		),

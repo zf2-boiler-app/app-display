@@ -1,13 +1,13 @@
 <?php
-namespace BoilerAppDisplayTest\Translator;
-class TranslatorServiceFactoryTest extends \PHPUnit_Framework_TestCase{
+namespace BoilerAppDisplayTest\Factory;
+class TranslatorFactoryTest extends \PHPUnit_Framework_TestCase{
 	/**
-	 * @var \BoilerAppDisplay\Translator\TranslatorServiceFactory
+	 * @var \BoilerAppDisplay\Factory\TranslatorServiceFactory
 	 */
 	protected $translatorServiceFactory;
 
 	public function setUp(){
-		$this->translatorServiceFactory = new \BoilerAppDisplay\Translator\TranslatorServiceFactory();
+		$this->translatorServiceFactory = new \BoilerAppDisplay\Factory\TranslatorFactory();
 	}
 
 	public function testCreateService(){
