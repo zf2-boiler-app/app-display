@@ -53,12 +53,10 @@ class Module{
 	 */
 	public function onError(\Zend\Mvc\MvcEvent $oEvent){
 		$oRequest = $oEvent->getRequest();
-		if($oEvent->getName() === 'render.error'){
-			if(!($oException = $oEvent->getParam('exception')) instanceof \Exception)$oException = new \RuntimeException($oEvent->getError());
-			//Try to log the error
-			$oServiceManager = $oEvent->getApplication()->getServiceManager();
-			if($oServiceManager->has('Logger'))$oServiceManager->get('Logger')->err($oException);
-		}
+		if(!($oException = $oEvent->getParam('exception')) instanceof \Exception)$oException = new \RuntimeException($oEvent->getError());
+		//Try to log the error
+		$oServiceManager = $oEvent->getApplication()->getServiceManager();
+		if($oServiceManager->has('Logger'))$oServiceManager->get('Logger')->err($oException);
 		if(
 			(!($oRequest instanceof \Zend\Http\Request) || $oRequest->isXmlHttpRequest())
 			&& ($oResult = $oEvent->getResult()) instanceof \Zend\View\Model\ModelInterface
