@@ -1,6 +1,7 @@
 <?php
 return array(
 	'asset_bundle' => include 'module.config.assets.php',
+	'translator' => include 'module.config.translations.php',
 	'service_manager' => array(
 		'factories' => array(
 			//Services

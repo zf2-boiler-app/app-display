@@ -11,22 +11,22 @@ class JsControllerHelperFactory implements \Zend\ServiceManager\FactoryInterface
 		$oJsControllerHelper = new \BoilerAppDisplay\View\Helper\JsControllerHelper();
 
 		//Retrieve and set Service locator
-		$oServiceManager = $oServiceLocator->getServiceLocator();
 		$oJsControllerHelper->setServiceLocator($oServiceLocator);
 
-		//Retrieve and set route match
+		//Try to retrieve and set route match
+		$oServiceManager = $oServiceLocator->getServiceLocator();
 		if(
 			$oServiceManager->has('Application')
 			&& ($oMvcEvent = $oServiceManager->get('Application')->getMvcEvent())
 			&& $oMvcEvent instanceof \Zend\Mvc\MvcEvent
-		)$oJsControllerHelper->setRouteMatch($oMvcEvent->getRouteMatch());
-		elseif($oServiceManager->has('router') && $oServiceManager->has('request')){
-			$oRouter = $oServiceManager->get('router');
-			$oRequest = $oServiceManager->get('request');
-			if($oRouteMatch = $oRouter->match($oRequest))$oJsControllerHelper->setRouteMatch($oRouteMatch);
-		}
+			&& ($oRouteMatch = $oMvcEvent->getRouteMatch()) instanceof \Zend\Mvc\Router\Http\RouteMatch
+		)$oJsControllerHelper->setRouteMatch($oRouteMatch);
+		elseif(
+			$oServiceManager->has('router') && $oServiceManager->has('request')
+			&& ($oRouteMatch = $oServiceManager->get('router')->match($oServiceManager->get('request'))) instanceof \Zend\Mvc\Router\Http\RouteMatch
+		)$oJsControllerHelper->setRouteMatch($oRouteMatch);
 
-		//Retrieve and set routes config
+		//Try to retrieve and set routes config
 		$aConfiguration = $oServiceManager->get('Config');
 		if(isset($aConfiguration['router']['routes']))$oJsControllerHelper->setRoutes($aConfiguration['router']['routes']);
 
