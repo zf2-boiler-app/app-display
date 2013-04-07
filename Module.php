@@ -8,9 +8,6 @@ class Module{
 	public function onBootstrap(\Zend\Mvc\MvcEvent $oEvent){
 		$oServiceManager = $oEvent->getApplication()->getServiceManager();
 
-		//Initialize templating service
-		$oServiceManager->get('TemplatingService');
-
 		//Add translation for validators
 		\Zend\Validator\AbstractValidator::setDefaultTranslator($oServiceManager->get('translator'),'validator');
 
@@ -77,7 +74,7 @@ class Module{
     public function getAutoloaderConfig(){
          return array(
             'Zend\Loader\ClassMapAutoloader' => array(
-                __DIR__ . '/autoload_classmap.php',
+                __DIR__ . '/autoload_classmap.php'
             )
         );
     }

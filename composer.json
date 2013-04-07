@@ -62,6 +62,9 @@
         "arian/iFrameFormRequest": "dev-master",
        	"nak5ive/Form.PasswordStrength": "dev-master"
     },
+    "require-dev":{
+    	"zf2-boiler-app/app-test": "dev-master"
+    },
     "autoload": {
         "psr-0": {
             "BoilerAppDisplay": "src"
