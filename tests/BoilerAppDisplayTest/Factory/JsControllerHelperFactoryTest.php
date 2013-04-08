@@ -1,6 +1,6 @@
 <?php
 namespace BoilerAppDisplayTest\Factory;
-class JsControllerHelperFactoryTest extends \PHPUnit_Framework_TestCase{
+class JsControllerHelperFactoryTest extends \BoilerAppTest\PHPUnit\TestCase\AbstractTestCase{
 	/**
 	 * @var \BoilerAppDisplay\Factory\JsControllerHelperFactory
 	 */

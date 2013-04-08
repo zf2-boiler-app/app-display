@@ -1,13 +1,13 @@
 <?php
 namespace BoilerAppDisplayTest\Form\View\Helper;
-class FormElementErrorsTest extends \PHPUnit_Framework_TestCase{
+class FormElementErrorsTest extends \BoilerAppTest\PHPUnit\TestCase\AbstractTestCase{
 	/**
 	 * @var \BoilerAppDisplay\Form\View\Helper\FormElementErrors
 	 */
 	protected $formElementErrorsHelper;
 
 	public function setUp(){
-		$oViewHelperPluginManager = \BoilerAppDisplayTest\Bootstrap::getServiceManager()->get('view_helper_manager');
+		$oViewHelperPluginManager = $this->getServiceManager()->get('view_helper_manager');
 
 		$oRenderer = new \Zend\View\Renderer\PhpRenderer();
 		$this->formElementErrorsHelper = $oViewHelperPluginManager->get('formElementErrors')->setView($oRenderer->setHelperPluginManager($oViewHelperPluginManager));

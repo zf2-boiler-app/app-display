@@ -1,6 +1,6 @@
 <?php
 namespace BoilerAppDisplayTest\Factory;
-class TranslatorFactoryTest extends \PHPUnit_Framework_TestCase{
+class TranslatorFactoryTest extends \BoilerAppTest\PHPUnit\TestCase\AbstractTestCase{
 	/**
 	 * @var \BoilerAppDisplay\Factory\TranslatorServiceFactory
 	 */

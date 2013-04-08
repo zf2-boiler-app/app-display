@@ -1,16 +1,19 @@
 <?php
 namespace BoilerAppDisplayTest\Form\View\Helper;
-class FormHelperTest extends \PHPUnit_Framework_TestCase{
+class FormHelperTest extends \BoilerAppTest\PHPUnit\TestCase\AbstractTestCase{
 
 	/**
 	 * @var \BoilerAppDisplay\Form\View\Helper\FormHelper
 	 */
 	protected $formHelper;
 
+	/**
+	 * @var \Zend\Form\Form
+	 */
 	protected $form;
 
 	public function setUp(){
-		$oViewHelperPluginManager = \BoilerAppDisplayTest\Bootstrap::getServiceManager()->get('view_helper_manager');
+		$oViewHelperPluginManager = $this->getServiceManager()->get('view_helper_manager');
 
 		$oRenderer = new \Zend\View\Renderer\PhpRenderer();
 		$this->formHelper = $oViewHelperPluginManager->get('form')->setView($oRenderer->setHelperPluginManager($oViewHelperPluginManager));

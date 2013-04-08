@@ -1,14 +1,13 @@
 <?php
 namespace BoilerAppDisplayTest\View\Helper;
-class EscapeJsonHelperTest  extends \PHPUnit_Framework_TestCase{
+class EscapeJsonHelperTest extends \BoilerAppTest\PHPUnit\TestCase\AbstractTestCase{
 	/**
 	 * @var \BoilerAppDisplay\View\Helper\EscapeJsonHelper
 	 */
 	protected $escapeJsonHelper;
 
 	public function setUp(){
-		/* @var $oViewHelperPluginManager \Zend\View\HelperPluginManager */
-		$oViewHelperPluginManager = \BoilerAppDisplayTest\Bootstrap::getServiceManager()->get('view_helper_manager');
+		$oViewHelperPluginManager = $this->getServiceManager()->get('view_helper_manager');
 
 		$oRenderer = new \Zend\View\Renderer\PhpRenderer();
 		$this->escapeJsonHelper = $oViewHelperPluginManager->get('escapeJson')->setView($oRenderer->setHelperPluginManager($oViewHelperPluginManager));

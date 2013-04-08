@@ -1,27 +1,19 @@
 <?php
 namespace BoilerAppDisplayTest;
-class ModuleTest extends \PHPUnit_Framework_TestCase{
-	/**
-	 * @var \BoilerAppDisplay\Module
-	 */
-	protected $module;
+class ModuleTest extends \BoilerAppTest\PHPUnit\TestCase\AbstractModuleTestCase{
 
 	/**
-	 * @see PHPUnit_Framework_TestCase::setUp()
+	 * @see \BoilerAppTest\PHPUnit\TestCase\AbstractModuleTestCase::setUp()
 	 */
 	protected function setUp(){
-		$this->module = new \BoilerAppDisplay\Module();
+		parent::setUp();
+		$aConfiguration = $this->getServiceManager()->get('Config');
 		$this->event = new \Zend\Mvc\MvcEvent();
-
-		$oServiceManager = \BoilerAppDisplayTest\Bootstrap::getServiceManager();
-
-		$oRouteMatch = new \Zend\Mvc\Router\RouteMatch(array('controller' => 'index','action' => 'index'));
-		$aConfiguration = $oServiceManager->get('Config');
 		$this->event
 			->setViewModel(new \Zend\View\Model\ViewModel())
-			->setApplication($oServiceManager->get('Application'))
+			->setApplication($this->getServiceManager()->get('Application'))
 			->setRouter(\Zend\Mvc\Router\Http\TreeRouteStack::factory(isset($aConfiguration['router'])?$aConfiguration['router']:array()))
-			->setRouteMatch($oRouteMatch);
+			->setRouteMatch(new \Zend\Mvc\Router\RouteMatch(array('controller' => 'index','action' => 'index')));
 	}
 
 	public function testOnBootstrap(){
@@ -38,8 +30,4 @@ class ModuleTest extends \PHPUnit_Framework_TestCase{
 			->setResult(new \Zend\View\Model\ViewModel())
 		);
 	}
-
-    public function testGetConfig(){
-        $this->assertTrue(is_array($this->module->getConfig()));
-    }
 }
