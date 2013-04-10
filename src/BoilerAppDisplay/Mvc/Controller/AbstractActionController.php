@@ -15,7 +15,12 @@ abstract class AbstractActionController extends \AssetsBundle\Mvc\Controller\Abs
 	 */
 	protected $view;
 
-	public function onDispatch(\Zend\Mvc\MvcEvent $oEvent){
+	/**
+	 * @see \AssetsBundle\Mvc\Controller\AbstractActionController::onDispatch()
+	 * @param \Zend\Mvc\MvcEvent $oEvent
+	 * @return mixed
+	 */
+	public function onDispatclh(\Zend\Mvc\MvcEvent $oEvent){
 		$this->view = $this->acceptableViewModelSelector($this->acceptCriteria);
 
 		$oRequest = $oEvent->getRequest();
