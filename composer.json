@@ -51,11 +51,9 @@
     ],
     "require": {
         "php": ">=5.3.3",
-        
         "zendframework/zendframework": "dev-master",
         "neilime/zf2-assets-bundle": "dev-master",
         "neilime/zf2-twb-bundle": "dev-master",
-        "neilime/zf2-translator-tools": "dev-master",
         "neilime/zf2-tree-layout-stack": "dev-master",
         
         "fortawesome/font-awesome": "dev-master",
@@ -64,7 +62,8 @@
        	"nak5ive/Form.PasswordStrength": "dev-master"
     },
     "require-dev":{
-    	"zf2-boiler-app/app-test": "dev-master"
+    	"zf2-boiler-app/app-test": "dev-master",
+    	"neilime/zf2-translator-tools": "dev-master"
     },
     "autoload": {
         "psr-0": {
