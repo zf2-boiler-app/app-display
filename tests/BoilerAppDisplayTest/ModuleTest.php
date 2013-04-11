@@ -3,6 +3,11 @@ namespace BoilerAppDisplayTest;
 class ModuleTest extends \BoilerAppTest\PHPUnit\TestCase\AbstractModuleTestCase{
 
 	/**
+	 * @var \Zend\Mvc\MvcEvent
+	 */
+	protected $event;
+
+	/**
 	 * @see \BoilerAppTest\PHPUnit\TestCase\AbstractModuleTestCase::setUp()
 	 */
 	protected function setUp(){
