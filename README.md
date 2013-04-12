@@ -17,6 +17,7 @@ Requirements
 * [Zend Framework 2](https://github.com/zendframework/zf2) (latest master)
 * [AssetsBundle](https://github.com/neilime/zf2-assets-bundle) (latest master)
 * [TwbBundle](https://github.com/neilime/zf2-twb-bundle) (latest master) 
+* [TreeLayoutStack](https://github.com/neilime/zf2-tree-layout-stack) (latest master) 
 * [Font Awesome](https://github.com/fortawesome/font-awesome) (latest master)
 * [MeioMask](https://github.com/fabiomcosta/mootools-meio-mask) (latest master)
 * [iFrameFormRequest](https://github.com/arian/iFrameFormRequest) (latest master)
@@ -37,6 +38,44 @@ Installation
 1. Add this project in your composer.json:
 
     ```json
+    "repositories":[
+        {
+            "type": "package",
+            "package": {
+                "version": "dev-master",
+                "name": "fortawesome/font-awesome",
+                "source": {"url": "https://github.com/FortAwesome/Font-Awesome.git","type": "git","reference": "master"}
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "version": "dev-master",
+                "name": "fabiomcosta/mootools-meio-mask",
+                "source": {"url": "https://github.com/fabiomcosta/mootools-meio-mask.git","type": "git","reference": "master"}
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "version": "dev-master",
+                "name": "arian/iFrameFormRequest",
+                "source": {"url": "https://github.com/arian/iFrameFormRequest.git","type": "git","reference": "master"}
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "version": "dev-master",
+                "name": "nak5ive/Form.PasswordStrength",
+                "source": {"url": "https://github.com/nak5ive/Form.PasswordStrength.git","type": "git","reference": "master"}
+            }
+        },
+        {
+	        "type": "vcs",
+	        "url": "http://github.com/Nodge/lessphp"
+	    }
+    ],
     "require": {
         "zf2-boiler-app/app-display": "dev-master"
     }
@@ -56,7 +95,10 @@ Installation
     return array(
         'modules' => array(
             // ...
-            'BoilerAppDisplay',
+            'AssetsBundle',
+	        'TwbBundle',
+	        'TreeLayoutStack',
+	        'BoilerAppDisplay',
         ),
         // ...
     );
@@ -64,11 +106,11 @@ Installation
 
 ## Features
 
-- Complex templating
+- Tree layout stack ([TreeLayoutStack](https://github.com/neilime/zf2-tree-layout-stack))
 - Assets management ([AssetsBundle](https://github.com/neilime/zf2-assets-bundle))
 - Twitter bootstrap integration ([TwbBundle](https://github.com/neilime/zf2-twb-bundle))
 - Javascript facilities : 
-    - Controller autoload
+    - Controller autoloading
     - Url & translate functions
     - Ajax loading (modal windows, forms)
 - Translators enhancement ([TranslatorTools](https://github.com/neilime/zf2-translator-tools))

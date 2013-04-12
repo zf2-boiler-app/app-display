@@ -1,0 +1,28 @@
+<?=$this->doctype()?>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"><![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8"><![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9"><![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js"><!--<![endif]-->
+ 	<head>
+<?php
+        echo $this->headTitle($this->translate('application_name'))->__invoke($this->layout()->title)->setSeparator(' - ')->setAutoEscape(false).
+	 	$this->headMeta()
+	 	->appendName('charset','utf-8')
+	 	->appendName('viewport','width=device-width, initial-scale=1.0')
+	 	->appendName('description',$this->translate('application_description'))
+	 	->appendHttpEquiv('X-UA-Compatible','IE=edge,chrome=1').
+       	$this->headScript();
+?>
+	</head>
+	<body>
+        <?php
+        	echo $this->layout()->content;
+
+        	//Javascript files
+       	 	echo $this->inlineScript();
+
+        	//Initalise js Controller
+        	echo $this->jsController();
+        ?>
+    </body>
+</html>

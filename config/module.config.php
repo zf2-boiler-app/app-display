@@ -2,11 +2,16 @@
 return array(
 	'asset_bundle' => include 'module.config.assets.php',
 	'translator' => include 'module.config.translations.php',
+	'tree_layout_stack' => array(
+		'layout_tree' => array(
+			'default' => array(
+				'template' => 'layout/layout'
+			)
+		)
+	),
 	'service_manager' => array(
 		'factories' => array(
-			//Services
-			'TemplatingService' => 'BoilerAppDisplay\Factory\TemplatingServiceFactory',
-			'Translator' => 'BoilerAppDisplay\Factory\TranslatorFactory',
+			'Translator' => 'BoilerAppDisplay\Factory\TranslatorFactory'
 		)
 	),
 	'view_helpers' => array(
@@ -30,7 +35,8 @@ return array(
 		'exception_template' => 'error/index',
 		'template_map' => array(
 			'error/404' => __DIR__ . '/../view/error/404.phtml',
-			'error/index' => __DIR__ . '/../view/error/index.phtml'
+			'error/index' => __DIR__ . '/../view/error/index.phtml',
+			'layout/layout' => __DIR__ . '/../view/layout/layout.phtml',
 		),
 		'template_path_stack' => array(__DIR__ . '/../view'),
 		'strategies' => array('ViewJsonStrategy')

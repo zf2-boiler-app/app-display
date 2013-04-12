@@ -32,14 +32,13 @@ class FormHelperTest extends \BoilerAppTest\PHPUnit\TestCase\AbstractTestCase{
 	}
 
     public function testRender(){
-    	file_put_contents(getcwd().'/_files/expected/form.html', $this->formHelper->render($this->form));
     	$this->assertEquals(
-    		file_get_contents(getcwd().'/_files/expected/form.html'),
+    		file_get_contents(getcwd().'/tests/_files/expected/form.html'),
     		$this->formHelper->render($this->form)
     	);
-    	file_put_contents(getcwd().'/_files/expected/ajax-form.html', $this->formHelper->render($this->form,\TwbBundle\Form\View\Helper\TwbBundleForm::LAYOUT_HORIZONTAL,true));
+
     	$this->assertEquals(
-    		file_get_contents(getcwd().'/_files/expected/ajax-form.html'),
+    		file_get_contents(getcwd().'/tests/_files/expected/ajax-form.html'),
     		$this->formHelper->render($this->form,\TwbBundle\Form\View\Helper\TwbBundleForm::LAYOUT_HORIZONTAL,true)
     	);
 	}

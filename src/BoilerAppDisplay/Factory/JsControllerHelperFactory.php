@@ -13,7 +13,7 @@ class JsControllerHelperFactory implements \Zend\ServiceManager\FactoryInterface
 		//Retrieve and set Service locator
 		$oJsControllerHelper->setServiceLocator($oServiceLocator);
 
-		//Try to retrieve and set route match
+		//Attempt to retrieve and set route match
 		$oServiceManager = $oServiceLocator->getServiceLocator();
 		if(
 			$oServiceManager->has('Application')
@@ -21,15 +21,12 @@ class JsControllerHelperFactory implements \Zend\ServiceManager\FactoryInterface
 			&& $oMvcEvent instanceof \Zend\Mvc\MvcEvent
 			&& ($oRouteMatch = $oMvcEvent->getRouteMatch()) instanceof \Zend\Mvc\Router\Http\RouteMatch
 		)$oJsControllerHelper->setRouteMatch($oRouteMatch);
-		elseif(
-			$oServiceManager->has('router') && $oServiceManager->has('request')
-			&& ($oRouteMatch = $oServiceManager->get('router')->match($oServiceManager->get('request'))) instanceof \Zend\Mvc\Router\Http\RouteMatch
-		)$oJsControllerHelper->setRouteMatch($oRouteMatch);
 
-		//Try to retrieve and set routes config
-		$aConfiguration = $oServiceManager->get('Config');
-		if(isset($aConfiguration['router']['routes']))$oJsControllerHelper->setRoutes($aConfiguration['router']['routes']);
+		//Attempt to retrieve and set translator
+		if($oServiceManager->has('translator'))$oJsControllerHelper->setTranslator($oServiceManager->get('translator'));
 
+		//Attempt to retrieve and set router
+		if($oServiceManager->has('router'))$oJsControllerHelper->setRouter($oServiceManager->get('router'));
 		return $oJsControllerHelper;
     }
 }

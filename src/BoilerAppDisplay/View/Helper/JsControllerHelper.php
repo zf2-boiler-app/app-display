@@ -1,6 +1,12 @@
 <?php
 namespace BoilerAppDisplay\View\Helper;
-class JsControllerHelper extends \Zend\View\Helper\AbstractHelper implements \Zend\ServiceManager\ServiceLocatorAwareInterface{
+class JsControllerHelper extends \Zend\View\Helper\AbstractHelper implements \Zend\ServiceManager\ServiceLocatorAwareInterface, \Zend\I18n\Translator\TranslatorAwareInterface{
+	use \Zend\ServiceManager\ServiceLocatorAwareTrait, \Zend\I18n\Translator\TranslatorAwareTrait;
+
+	/**
+	 * @var \Zend\Mvc\Router\RouteInterface
+	 */
+	private $router;
 
 	/**
 	 * @var \Zend\Mvc\Router\Http\RouteMatch
@@ -13,14 +19,28 @@ class JsControllerHelper extends \Zend\View\Helper\AbstractHelper implements \Ze
 	private $routes = array();
 
 	/**
-	 * @var \Zend\ServiceManager\ServiceLocatorInterface
-	 */
-	private $serviceLocator;
-
-	/**
 	 * @var array
 	 */
 	private $translationMessages;
+
+	/**
+	 * @param \Zend\Mvc\Router\RouteInterface $oRouter
+	 * @return \BoilerAppDisplay\View\Helper\JsControllerHelper
+	 */
+	public function setRouter(\Zend\Mvc\Router\RouteInterface $oRouter){
+		$this->router = $oRouter;
+		if($this->router instanceof \Zend\Mvc\Router\RouteStackInterface)$this->setRoutes($this->router->getRoutes());
+		return $this;
+	}
+
+	/**
+	 * @throws \LogicException
+	 * @return \Zend\Mvc\Router\RouteInterface
+	 */
+	public function getRouter(){
+		if($this->router instanceof \Zend\Mvc\Router\RouteInterface)return $this->router;
+		throw new \LogicException('Router is undefined');
+	}
 
 	/**
 	 * @param \Zend\Mvc\Router\Http\RouteMatch $oRouteMatch
@@ -32,20 +52,27 @@ class JsControllerHelper extends \Zend\View\Helper\AbstractHelper implements \Ze
 	}
 
 	/**
-	 * @param array $aRoutesConfig
-	 * @param string $sRoutePrefix
+	 * @return \Zend\Mvc\Router\Http\RouteMatch|null
+	 */
+	public function getRouteMatch(){
+		if(isset($this->routeMatch))return $this->routeMatch;
+	}
+
+	/**
+	 * @param \Zend\Mvc\Router\PriorityList $oRoutes
+	 * @param string $sRouteParent
 	 * @return \BoilerAppDisplay\View\Helper\JsController
 	 */
-	public function setRoutes(array $aRoutesConfig,$sRouteParent = null){
-		$oRouter = $this->getServiceLocator()->getServiceLocator()->get('router');
-		foreach($aRoutesConfig as $sRouteName => $aInfosRoute){
-			if($aInfosRoute['type'] !== 'Zend\Mvc\Router\Http\Literal')continue;
-
-			if(!empty($sRouteParent))$sRouteName = $sRouteParent.'/'.$sRouteName;
-			if(!$oRouter->hasRoute($sRouteName))continue;
-
-			$this->routes[$sRouteName] = $oRouter->assemble(array(), array('name' => $sRouteName));
-			if(isset($aInfosRoute['child_routes']))$this->setRoutes($aInfosRoute['child_routes'],$sRouteName);
+	public function setRoutes(\Zend\Mvc\Router\PriorityList $oRoutes,$sParentRouteName = null){
+		$oRouter = $this->getRouter();
+		foreach($oRoutes as $sRouteName => $oRoute){
+			if(!($oRoute instanceof \Zend\Mvc\Router\Http\RouteInterface))continue;
+			if(!empty($sParentRouteName))$sRouteName = $sParentRouteName.'/'.$sRouteName;
+			try{
+				$this->routes[$sRouteName] = $oRouter->assemble($oRoute->getAssembledParams(), array('name' => $sRouteName));
+			}
+			catch(\Exception $oExcpetion){}
+			if($oRoute instanceof \Zend\Mvc\Router\Http\Part)$this->setRoutes($oRoute->getRoutes(),$sRouteName);
 		}
 		return $this;
 	}
@@ -60,31 +87,13 @@ class JsControllerHelper extends \Zend\View\Helper\AbstractHelper implements \Ze
 	}
 
 	/**
-	 * @param \Zend\ServiceManager\ServiceLocatorInterface $oServiceLocator
-	 * @return \BoilerAppDisplay\View\Helper\JsController
-	 */
-	public function setServiceLocator(\Zend\ServiceManager\ServiceLocatorInterface $oServiceLocator){
-		$this->serviceLocator = $oServiceLocator;
-		return $this;
-	}
-
-	/**
-	 * @throws \LogicException
-	 * @return \Zend\ServiceManager\ServiceLocatorInterface
-	 */
-	public function getServiceLocator(){
-		if($this->serviceLocator instanceof \Zend\ServiceManager\ServiceLocatorInterface)return $this->serviceLocator;
-		throw new \LogicException('Service Locator is undefined');
-	}
-
-	/**
 	 * Retrieve translation messages
 	 * @return array
 	 */
 	protected function getTranslationMessages(){
 		if(is_array($this->translationMessages))return $this->translationMessages;
 		else{
-			$oTranslator = $this->getServiceLocator()->getServiceLocator()->get('translator');
+			$oTranslator = $this->getTranslator();
 			return $this->translationMessages = array_merge(
 				$oTranslator->getMessages(),
 				$oTranslator->getMessages(null,'validator')
@@ -97,17 +106,19 @@ class JsControllerHelper extends \Zend\View\Helper\AbstractHelper implements \Ze
 	 * @return
 	 */
 	public function __invoke(){
-		if($this->routeMatch){
-			$sControllerName = str_ireplace('\\','',$this->routeMatch->getParam('controller'));
-			$sControllerActionName = $sControllerName.ucfirst($this->routeMatch->getParam('action'));
+		if(($oRouteMatch = $this->getRouteMatch()) instanceof \Zend\Mvc\Router\Http\RouteMatch){
+			$sControllerName = str_ireplace('\\','',$oRouteMatch->getParam('controller'));
+			$sControllerActionName = $sControllerName.ucfirst($oRouteMatch->getParam('action'));
 		}
 		else $sControllerName = $sControllerActionName = 'NoController';
 
+		$oEscapeJson = $this->getServiceLocator()->get('escapeJson');
+
 		return $this->getServiceLocator()->get('inlineScript')->__invoke(\Zend\View\Helper\HeadScript::SCRIPT)->appendScript('
 			var oControllerOptions = {
-				\'locale\':'.$this->getServiceLocator()->get('escapeJson')->__invoke(str_ireplace('_','-',$this->getServiceLocator()->getServiceLocator()->get('translator')->getLocale())).',
-	            \'texts\':'.$this->getServiceLocator()->get('escapeJson')->__invoke($this->getTranslationMessages()).',
-				\'routes\':'.$this->getServiceLocator()->get('escapeJson')->__invoke($this->getRoutes()).',
+				\'locale\':'.$oEscapeJson(str_ireplace('_','-',$this->getTranslator()->getLocale())).',
+	            \'texts\':'.$oEscapeJson($this->getTranslationMessages()).',
+				\'routes\':'.$oEscapeJson($this->getRoutes()).',
 			};
 			var oController;
 			if(\'undefined\' !== typeof '.$sControllerActionName.')oController = new '.$sControllerActionName.'(oControllerOptions);
