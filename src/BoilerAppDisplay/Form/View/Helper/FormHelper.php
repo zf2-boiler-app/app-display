@@ -14,20 +14,17 @@ class FormHelper extends \TwbBundle\Form\View\Helper\TwbBundleForm implements \Z
 	protected $escapeEscapeJsonHelper;
 
 	/**
-	 * @var \Zend\View\Helper\EscapeJs
-	 */
-	protected $escapeJsHelper;
-
-	/**
+	 * @throws \LogicException
 	 * @return \Zend\Http\Request
 	 */
 	protected function getRequest(){
-		if(!$this->request){
-			$oRequest = $this->getServiceLocator()->getServiceLocator()->get('Request');
-			if($oRequest)$this->setRequest($oRequest);
-			else throw new \Exception('Request is undefined');
+		if($this->request instanceof \Zend\Http\Request)return $this->request;
+		if(($oRequest = $this->getServiceLocator()->getServiceLocator()->get('Request')) instanceof \Zend\Http\Request){
+			$this->setRequest($oRequest);
+			return $this->request;
 		}
-		return $this->request;
+		else throw new \LogicException('Request is undefined');
+
 	}
 
 	/**
@@ -44,7 +41,7 @@ class FormHelper extends \TwbBundle\Form\View\Helper\TwbBundleForm implements \Z
 	 * @see \Zend\Form\View\Helper\Form::__invoke()
 	 * @param null|\Zend\Form\FormInterface $oForm
      * @param string $sFormLayout : default 'horizontal'
-	 * @return \BoilerAppDisplay\Form\View\Helper|string
+	 * @return \BoilerAppDisplay\Form\View\Helper\FormHelper|string
 	 */
 	public function __invoke(\Zend\Form\FormInterface $oForm = null, $sFormLayout = \TwbBundle\Form\View\Helper\TwbBundleForm::LAYOUT_HORIZONTAL,$bAjax = false){
 		if($oForm)return $this->render($oForm,$sFormLayout,$bAjax);
@@ -129,16 +126,5 @@ class FormHelper extends \TwbBundle\Form\View\Helper\TwbBundleForm implements \Z
 		if(method_exists($this->view, 'plugin'))$this->escapeEscapeJsonHelper = $this->view->plugin('escapeJson');
 		if(!$this->escapeEscapeJsonHelper instanceof \BoilerAppDisplay\View\Helper\EscapeJsonHelper)$this->escapeEscapeJsonHelper = new \Application\View\Helper\EscapeJsonHelper();
 		return $this->escapeEscapeJsonHelper;
-	}
-
-	/**
-	 * Retrieve the escapeJs helper
-	 * @return \BoilerAppDisplay\View\Helper\EscapeJs
-	 */
-	protected function getEscapeJsHelper(){
-		if($this->escapeJsHelper)return $this->escapeJsHelper;
-		if(method_exists($this->view, 'plugin'))$this->escapeJsHelper = $this->view->plugin('escapejs');
-		if(!$this->escapeJsHelper instanceof \Zend\View\Helper\EscapeJs)$this->escapeJsHelper = new  \Zend\View\Helper\EscapeJs();
-		return $this->escapeJsHelper;
 	}
 }

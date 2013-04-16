@@ -31,6 +31,10 @@ class FormHelperTest extends \BoilerAppTest\PHPUnit\TestCase\AbstractTestCase{
 		));
 	}
 
+	public function testInvoke(){
+		$this->assertInstanceOf('\BoilerAppDisplay\Form\View\Helper\FormHelper',$this->formHelper->__invoke());
+	}
+
     public function testRender(){
     	$this->assertEquals(
     		file_get_contents(getcwd().'/tests/_files/expected/form.html'),
@@ -41,5 +45,37 @@ class FormHelperTest extends \BoilerAppTest\PHPUnit\TestCase\AbstractTestCase{
     		file_get_contents(getcwd().'/tests/_files/expected/ajax-form.html'),
     		$this->formHelper->render($this->form,\TwbBundle\Form\View\Helper\TwbBundleForm::LAYOUT_HORIZONTAL,true)
     	);
+
+    	$this->assertEquals(
+    		file_get_contents(getcwd().'/tests/_files/expected/ajax-form-multipart.html'),
+    		$this->formHelper->render($this->form->setAttribute('enctype','multipart/form-data'),\TwbBundle\Form\View\Helper\TwbBundleForm::LAYOUT_HORIZONTAL,true)
+    	);
+	}
+
+	/**
+	 * @expectedException LogicException
+	 */
+	public function testGetRequestUnset(){
+		$oReflectionClass = new \ReflectionClass('\BoilerAppDisplay\Form\View\Helper\FormHelper');
+		$oRequest = $oReflectionClass->getProperty('request');
+		$oRequest->setAccessible(true);
+		$oRequest->setValue($this->formHelper, null);
+
+		$oGetRequest = $oReflectionClass->getMethod('getRequest');
+		$oGetRequest->setAccessible(true);
+		$oGetRequest->invokeArgs($this->formHelper,array());
+	}
+
+	public function testGetRequestFromService(){
+		$oReflectionClass = new \ReflectionClass('\BoilerAppDisplay\Form\View\Helper\FormHelper');
+		$oRequest = $oReflectionClass->getProperty('request');
+		$oRequest->setAccessible(true);
+		$oRequest->setValue($this->formHelper, null);
+
+		$this->getServiceManager()->setAllowOverride(true)->setService('Request',new \Zend\Http\Request())->setAllowOverride(false);
+
+		$oGetRequest = $oReflectionClass->getMethod('getRequest');
+		$oGetRequest->setAccessible(true);
+		$this->assertInstanceOf('Zend\Http\Request', $oGetRequest->invokeArgs($this->formHelper,array()));
 	}
 }

@@ -16,6 +16,9 @@ class FormElementErrorsTest extends \BoilerAppTest\PHPUnit\TestCase\AbstractTest
 	public function testRender(){
 		$oElement = new \Zend\Form\Element\Text('test-element');
 		$oElement->setMessages(array('Error #1'));
+
 		$this->assertEquals('<ul class="test-class advice"><li>Error #1</li></ul>',$this->formElementErrorsHelper->render($oElement,array('class' => 'test-class')));
+
+		$this->assertEquals('<ul class="advice"><li>Error #1</li></ul>',$this->formElementErrorsHelper->render($oElement));
     }
 }

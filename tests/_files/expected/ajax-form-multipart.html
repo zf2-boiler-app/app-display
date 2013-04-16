@@ -1,0 +1,34 @@
+<form action="" method="POST" class="form-horizontal" id="" onsubmit="return false;" enctype="multipart/form-data"><div class="control-group"><label class="control-label">Label name</label><div class="controls"><input name="input-text" placeholder="Type something..." type="text" value=""></div></div>
+</form>
+<script type="text/javascript">
+			if(document.id){
+				try{
+		
+					var eForm = document.id(null);
+					eForm.iFrameFormRequest({
+				        onRequest: function(){
+							if(eForm.validate())eForm.spin();
+						},
+						onComplete: function(sText){
+							var sJavascript = null;
+							var sHtml =	sText.stripScripts(function(sScript){
+								sJavascript = sScript;
+							});
+							var aMatches = sHtml.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
+							if(aMatches)sHtml = aMatches[1];
+				           	eForm.getParent().empty().set('html',sHtml);
+							if(sJavascript)Browser.exec(sJavascript);
+							eForm.unspin();
+							window.behavior.apply(document.body,true);
+				        },
+				        onFailure: function(){
+				        	alert(oController.translate('error_occurred'));
+				        }
+				    });
+		
+				}
+			    catch(oException){
+					if(oController != null)alert("Une erreur s\u0027est produite");
+	    		}
+			}
+		</script>
