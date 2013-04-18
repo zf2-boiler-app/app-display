@@ -10,6 +10,9 @@
             "role": "Developer"
         }
     ],
+    "support": {
+        "issues": "https://github.com/zf2-boiler-app/app-display/issues"
+    },
     "minimum-stability" : "dev",
     "repositories":[
         {
@@ -70,5 +73,10 @@
             "BoilerAppDisplay": "src"
         },
         "classmap" : ["Module.php"]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
     }
 }
