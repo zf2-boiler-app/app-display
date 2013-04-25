@@ -49,13 +49,15 @@ class Module{
 	 * @param \Zend\Mvc\MvcEvent $oEvent
 	 */
 	public function onError(\Zend\Mvc\MvcEvent $oEvent){
-		$oRequest = $oEvent->getRequest();
 		if(!($oException = $oEvent->getParam('exception')) instanceof \Exception)$oException = new \RuntimeException($oEvent->getError());
+
 		//Try to log the error
 		$oServiceManager = $oEvent->getApplication()->getServiceManager();
 		if($oServiceManager->has('Logger'))$oServiceManager->get('Logger')->err($oException);
+
+		//Disable layout rendering if request is not Http
 		if(
-			(!($oRequest instanceof \Zend\Http\Request) || $oRequest->isXmlHttpRequest())
+			(!(($oRequest = $oEvent->getRequest()) instanceof \Zend\Http\Request) || $oRequest->isXmlHttpRequest())
 			&& ($oResult = $oEvent->getResult()) instanceof \Zend\View\Model\ModelInterface
 		)$oResult->setTerminal(true);
 	}
