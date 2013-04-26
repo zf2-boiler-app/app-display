@@ -19,14 +19,6 @@
             "type": "package",
             "package": {
                 "version": "dev-master",
-                "name": "fortawesome/font-awesome",
-                "source": {"url": "https://github.com/FortAwesome/Font-Awesome.git","type": "git","reference": "master"}
-            }
-        },
-        {
-            "type": "package",
-            "package": {
-                "version": "dev-master",
                 "name": "fabiomcosta/mootools-meio-mask",
                 "source": {"url": "https://github.com/fabiomcosta/mootools-meio-mask.git","type": "git","reference": "master"}
             }
@@ -54,12 +46,12 @@
     ],
     "require": {
         "php": ">=5.3.3",
-        "zendframework/zendframework": "dev-master",
-        "neilime/zf2-assets-bundle": "dev-master",
+        "zendframework/zendframework": "2.2.*@dev",
+        "neilime/zf2-assets-bundle": "1.0.*@dev"
         "neilime/zf2-twb-bundle": "dev-master",
         "neilime/zf2-tree-layout-stack": "dev-master",
         
-        "fortawesome/font-awesome": "dev-master",
+        "fortawesome/font-awesome": "3.0.*@dev"
         "fabiomcosta/mootools-meio-mask": "dev-master",
         "arian/iFrameFormRequest": "dev-master",
        	"nak5ive/Form.PasswordStrength": "dev-master"
