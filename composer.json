@@ -47,22 +47,22 @@
     "require": {
         "php": ">=5.3.3",
         "ext-intl": "*",
-        "zendframework/zendframework": "2.2.*@dev",
-        "neilime/zf2-assets-bundle": "1.0.*@dev",
+        "zendframework/zendframework": "2.2.*",
+        "neilime/zf2-assets-bundle": "1.0.*",
         "neilime/zf2-twb-bundle": "dev-master",
         "neilime/zf2-tree-layout-stack": "dev-master",
-        "fortawesome/font-awesome": "3.0.*@dev",
+        "fortawesome/font-awesome": "3.0.*",
         "fabiomcosta/mootools-meio-mask": "dev-master",
         "arian/iFrameFormRequest": "dev-master",
        	"nak5ive/Form.PasswordStrength": "dev-master"
     },
     "require-dev":{
-    	"zf2-boiler-app/app-test": "dev-master",
+    	"zf2-boiler-app/app-test": "1.0.*",
     	"neilime/zf2-translator-tools": "dev-master"
     },
     "autoload": {
         "psr-0": {
-            "BoilerAppDisplay": "src"
+            "BoilerAppDisplay": "src/"
         },
         "classmap" : ["Module.php"]
     },
