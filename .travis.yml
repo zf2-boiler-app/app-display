@@ -1,15 +1,14 @@
 language: php
 
 php:
- - "5.3.3"
- - "5.3"
  - "5.4"
 
 before_install:
  - composer self-update
- - composer install --dev
+ - composer install --dev -o
 
 before_script:
+ - mysql -e 'create database `app-db-tests`;'
  - cd tests
 
 script:

@@ -1,7 +1,9 @@
 ZF2 Boiler-App Display module
 =====================
 
-Created by Neilime
+[![Build Status](https://travis-ci.org/zf2-boiler-app/app-display.png?branch=master)](https://travis-ci.org/zf2-boiler-app/app-display)
+
+_100% Code Coverage_
 
 NOTE : This module is in heavy development, it's not usable yet.
 If you want to contribute don't hesitate, I'll review any PR.
@@ -9,7 +11,7 @@ If you want to contribute don't hesitate, I'll review any PR.
 Introduction
 ------------
 
-__Boiler-App Display module__ is a Zend Framework 2 module for ZF2 Boiler-App that allows you to manage all part of the display
+__Boiler-App "Display" module__ is a Zend Framework 2 module that provides all part of the display management for ZF2 Boiler-App
 
 Requirements
 ------------
@@ -77,11 +79,11 @@ Installation
 	    }
     ],
     "require": {
-        "zf2-boiler-app/app-display": "dev-master"
+        "zf2-boiler-app/app-display": "1.0.*"
     }
     ```
 
-2. Now tell composer to download __ZF2 Boiler-App Display module__ by running the command:
+2. Now tell composer to download __ZF2 Boiler-App "Display" module__ by running the command:
 
     ```bash
     $ php composer.phar update
@@ -113,4 +115,5 @@ Installation
     - Controller autoloading
     - Url & translate functions
     - Ajax loading (modal windows, forms)
-- Translators enhancement ([TranslatorTools](https://github.com/neilime/zf2-translator-tools))
+    - Form validators
+- Translator enhancement ([TranslatorTools](https://github.com/neilime/zf2-translator-tools))
