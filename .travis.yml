@@ -8,7 +8,6 @@ before_install:
  - composer install --dev -o
 
 before_script:
- - mysql -e 'create database `app-db-tests`;'
  - cd tests
 
 script:
