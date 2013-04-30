@@ -68,9 +68,6 @@ Class.refactor(Bootstrap.Popup,{
 		'BS.DismissPopup': {
 			defaults: {},
 			setup: function(eElement, api){
-				var options = Object.cleanValues(
-					api.getAs({})
-				);
 				eElement.getElements('[data-dismiss=modal]').each(function(eButton){
 					eButton.addEvent('click',function(){
 						this.getParent('.modal').getElement('.close').click();
@@ -80,4 +77,53 @@ Class.refactor(Bootstrap.Popup,{
 			}
 		}
 	});
+	
+	//Override FormValidator setup
+	Behavior.getFilter('FormValidator').setup = function(element, api) {
+		//instantiate the form validator
+		var validator = element.retrieve('validator',new Form.Validator.Inline(element,
+			Object.cleanValues(
+				api.getAs({
+					useTitles: Boolean,
+					scrollToErrorsOnSubmit: Boolean,
+					scrollToErrorsOnBlur: Boolean,
+					scrollToErrorsOnChange: Boolean,
+					ignoreHidden: Boolean,
+					ignoreDisabled: Boolean,
+					useTitles: Boolean,
+					evaluateOnSubmit: Boolean,
+					evaluateFieldsOnBlur: Boolean,
+					evaluateFieldsOnChange: Boolean,
+					serial: Boolean,
+					stopOnFailure: Boolean
+				})
+			)
+		));
+		
+		//Disable / enabled submit on element validate
+		var eSubmit = element.getElement('input[type=submit]');
+		if(eSubmit != null)validator.setOptions({
+			onElementPass : function(eElement){
+				eSubmit.set('disabled',false);
+			},
+			onElementFail : function(eElement){
+				eSubmit.set('disabled',true);
+			}
+		});
+		
+		//if the api provides a getScroller method, which should return an instance of
+		//Fx.Scroll, use it instead
+		if (api.getScroller) {
+			validator.setOptions({
+				onShow: function(input, advice, className) {
+					api.getScroller().toElement(input);
+				},
+				scrollToErrorsOnSubmit: false
+			});
+		}
+		api.onCleanup(function(){
+			validator.stop();
+		});
+		return validator;
+	};
 })();
