@@ -47,7 +47,7 @@
     "require": {
         "php": ">=5.3.3",
         "ext-intl": "*",
-        "zendframework/zendframework": "2.2.*",
+        "zendframework/zendframework": "2.3.*",
         "neilime/zf2-assets-bundle": "1.0.*",
         "neilime/zf2-twb-bundle": "dev-master",
         "neilime/zf2-tree-layout-stack": "dev-master",
