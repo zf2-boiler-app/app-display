@@ -1,6 +1,6 @@
 <?php
 namespace BoilerAppDisplay\Translator;
-class Translator extends \Zend\I18n\Translator\Translator{
+class Translator extends \Zend\I18n\Translator\Translator implements \Zend\Validator\Translator\TranslatorInterface{
 
 	/**
 	 * Retrieve available messages
