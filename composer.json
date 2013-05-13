@@ -54,7 +54,8 @@
         "fortawesome/font-awesome": "3.0.*",
         "fabiomcosta/mootools-meio-mask": "dev-master",
         "arian/iFrameFormRequest": "dev-master",
-       	"nak5ive/Form.PasswordStrength": "dev-master"
+       	"nak5ive/Form.PasswordStrength": "dev-master",
+       	"twitter/bootstrap": "dev-master"
     },
     "require-dev":{
     	"zf2-boiler-app/app-test": "1.0.*",
