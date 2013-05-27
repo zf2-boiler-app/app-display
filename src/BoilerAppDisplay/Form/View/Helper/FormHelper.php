@@ -88,10 +88,10 @@ class FormHelper extends \TwbBundle\Form\View\Helper\TwbBundleForm implements \Z
 							});
 							var aMatches = sHtml.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
 							if(aMatches)sHtml = aMatches[1];
-				           	eForm.getParent().empty().set(\'html\',sHtml);
+				           	var eContainer = eForm.getParent().empty().set(\'html\',sHtml);
 							if(sJavascript)Browser.exec(sJavascript);
 							eForm.unspin();
-							window.behavior.apply(document.body,true);
+							window.behavior.apply(eContainer.getParent(),true);
 				        },
 				        onFailure: function(){
 				        	alert(oController.translate(\'error_occurred\'));

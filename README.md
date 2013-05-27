@@ -1,9 +1,8 @@
-ZF2 Boiler-App Display module
+ZF2 Boiler-App "Display" module
 =====================
 
 [![Build Status](https://travis-ci.org/zf2-boiler-app/app-display.png?branch=master)](https://travis-ci.org/zf2-boiler-app/app-display)
-
-_100% Code Coverage_
+![Code coverage](https://raw.github.com/zf2-boiler-app/app-test/master/ressources/100%25-code-coverage.png "100% code coverage")
 
 NOTE : This module is in heavy development, it's not usable yet.
 If you want to contribute don't hesitate, I'll review any PR.
@@ -97,8 +96,8 @@ Installation
     return array(
         'modules' => array(
             // ...
-            'AssetsBundle',
 	        'TwbBundle',
+            'AssetsBundle',
 	        'TreeLayoutStack',
 	        'BoilerAppDisplay',
         ),
@@ -108,9 +107,9 @@ Installation
 
 ## Features
 
-- Tree layout stack ([TreeLayoutStack](https://github.com/neilime/zf2-tree-layout-stack))
-- Assets management ([AssetsBundle](https://github.com/neilime/zf2-assets-bundle))
 - Twitter bootstrap integration ([TwbBundle](https://github.com/neilime/zf2-twb-bundle))
+- Assets management ([AssetsBundle](https://github.com/neilime/zf2-assets-bundle))
+- Tree layout stack ([TreeLayoutStack](https://github.com/neilime/zf2-tree-layout-stack))
 - Javascript facilities : 
     - Controller autoloading
     - Url & translate functions

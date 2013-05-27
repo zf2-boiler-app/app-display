@@ -8,7 +8,7 @@ Bootstrap.Popup.implement({
 		this.spin();
 		if(oOptions == null || 'object' !== typeof oOptions)oOptions = {};
 		
-		var fSuccess;
+		var fSuccess = null;
 		if('function' === typeof oOptions.onSuccess){
 			fSuccess = oOptions.onSuccess;
 			delete oOptions.onSuccess;
@@ -21,12 +21,8 @@ Bootstrap.Popup.implement({
 			'update':eBody,
 			'url':sUrl,
 			'onSuccess':function(){
-				var aCloseButtons = eBody.getElements('[data-dismiss=modal]');
-				if(aCloseButtons.length)aCloseButtons.each(function(eButton){
-					eButton.addEvent('click',that.hide.bind(that));
-				}.bind(that));
 				that.unspin();
-				if(fSuccess != null)fSuccess(that);
+				if('function' === typeof fSuccess)fSuccess(that);
 			},
 			'onFailure' : function(){
 				if(this.animating && this.visible)this.addEvent('show',this.hide.bind(this));
@@ -68,9 +64,9 @@ Class.refactor(Bootstrap.Popup,{
 		'BS.DismissPopup': {
 			defaults: {},
 			setup: function(eElement, api){
-				eElement.getElements('[data-dismiss=modal]').each(function(eButton){
+				eElement.getElements('[data-dismiss]').each(function(eButton){
 					eButton.addEvent('click',function(){
-						this.getParent('.modal').getElement('.close').click();
+						this.getParent(this.get('data-dismiss')).getElement('.close').click();
 					});
 				});
 				return eElement;

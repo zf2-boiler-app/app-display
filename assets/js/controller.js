@@ -25,7 +25,7 @@ var Controller = {
 		//Overide request
 		Class.refactor(Request,{
 			'onFailure': function(oXhr){
-				var sError;
+				var sError = null;
 				if(oXhr != null && oXhr.responseText != null){
     				try{
     					var oResponse = JSON.decode(oXhr.responseText,true);
@@ -68,9 +68,10 @@ var Controller = {
 		});
 
 		Class.refactor(Request.HTML,{
-			'success': function(text){
-				this.previous(text);
-				window.behavior.apply(this.options.container,true);
+			'success': function(){
+				var eContainer = document.id(this.options.update);
+				this.previous.apply(this,arguments);
+				window.behavior.apply(eContainer.getParent(),true);
 			}
 		});
 	},
