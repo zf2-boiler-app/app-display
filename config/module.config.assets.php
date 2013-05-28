@@ -5,10 +5,10 @@ return array(
 	'cacheUrl' => '@zfBaseUrl/assets/cache/',
 	'assets' => array(
 		'less' => array(
-			__DIR__ . '/../assets/less/global.less',
-			__DIR__ . '/../assets/less/bootstrap-custom.less',
+			'@zfRootPath/vendor/twitter/bootstrap/less/bootstrap.less',
 			'@zfRootPath/vendor/fortawesome/font-awesome/less/font-awesome.less',
-			'@zfRootPath/vendor/twitter/bootstrap/less/bootstrap.less'
+			__DIR__ . '/../assets/less/bootstrap-custom.less',
+			__DIR__ . '/../assets/less/global.less'
 		),
 		'js' => array(
 			__DIR__ . '/../assets/js/mootools/mootools-core-1.4.5.js',
