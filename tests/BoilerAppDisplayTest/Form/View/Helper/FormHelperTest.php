@@ -36,18 +36,18 @@ class FormHelperTest extends \BoilerAppTest\PHPUnit\TestCase\AbstractTestCase{
 	}
 
     public function testRender(){
-    	$this->assertEquals(
-    		file_get_contents(getcwd().'/tests/_files/expected/form.html'),
+    	$this->assertStringEqualsFile(
+    		getcwd().'/tests/_files/expected/form.html',
     		$this->formHelper->render($this->form)
-    	);
+		);
 
-    	$this->assertEquals(
-    		file_get_contents(getcwd().'/tests/_files/expected/ajax-form.html'),
+    	$this->assertStringEqualsFile(
+    		getcwd().'/tests/_files/expected/ajax-form.html',
     		$this->formHelper->render($this->form,\TwbBundle\Form\View\Helper\TwbBundleForm::LAYOUT_HORIZONTAL,true)
     	);
 
-    	$this->assertEquals(
-    		file_get_contents(getcwd().'/tests/_files/expected/ajax-form-multipart.html'),
+    	$this->assertStringEqualsFile(
+    		getcwd().'/tests/_files/expected/ajax-form-multipart.html',
     		$this->formHelper->render($this->form->setAttribute('enctype','multipart/form-data'),\TwbBundle\Form\View\Helper\TwbBundleForm::LAYOUT_HORIZONTAL,true)
     	);
 	}

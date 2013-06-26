@@ -51,7 +51,7 @@
         "neilime/zf2-assets-bundle": "1.0.*",
         "neilime/zf2-twb-bundle": "dev-master",
         "neilime/zf2-tree-layout-stack": "dev-master",
-        "fortawesome/font-awesome": "3.0.*",
+        "fortawesome/font-awesome": "3.2.*@dev",
         "fabiomcosta/mootools-meio-mask": "dev-master",
         "arian/iFrameFormRequest": "dev-master",
        	"nak5ive/Form.PasswordStrength": "dev-master",
