@@ -47,18 +47,18 @@
     "require": {
         "php": ">=5.3.3",
         "ext-intl": "*",
-        "zendframework/zendframework": "2.3.*",
-        "neilime/zf2-assets-bundle": "1.0.*",
+        "zendframework/zendframework": "dev-master",
+        "neilime/zf2-assets-bundle": "dev-master",
         "neilime/zf2-twb-bundle": "dev-master",
         "neilime/zf2-tree-layout-stack": "dev-master",
-        "fortawesome/font-awesome": "3.2.*@dev",
+        "fortawesome/font-awesome": "dev-master",
         "fabiomcosta/mootools-meio-mask": "dev-master",
         "arian/iFrameFormRequest": "dev-master",
        	"nak5ive/Form.PasswordStrength": "dev-master",
        	"twitter/bootstrap": "dev-master"
     },
     "require-dev":{
-    	"zf2-boiler-app/app-test": "1.0.*",
+    	"zf2-boiler-app/app-test": "dev-master",
     	"neilime/zf2-translator-tools": "dev-master"
     },
     "autoload": {
