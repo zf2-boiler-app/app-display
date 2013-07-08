@@ -14,32 +14,6 @@
         "issues": "https://github.com/zf2-boiler-app/app-display/issues"
     },
     "minimum-stability" : "dev",
-    "repositories":[
-        {
-            "type": "package",
-            "package": {
-                "version": "dev-master",
-                "name": "fabiomcosta/mootools-meio-mask",
-                "source": {"url": "https://github.com/fabiomcosta/mootools-meio-mask.git","type": "git","reference": "master"}
-            }
-        },
-        {
-            "type": "package",
-            "package": {
-                "version": "dev-master",
-                "name": "arian/iFrameFormRequest",
-                "source": {"url": "https://github.com/arian/iFrameFormRequest.git","type": "git","reference": "master"}
-            }
-        },
-        {
-            "type": "package",
-            "package": {
-                "version": "dev-master",
-                "name": "nak5ive/Form.PasswordStrength",
-                "source": {"url": "https://github.com/nak5ive/Form.PasswordStrength.git","type": "git","reference": "master"}
-            }
-        }
-    ],
     "require": {
         "php": ">=5.3.3",
         "ext-intl": "*",
@@ -47,11 +21,11 @@
         "neilime/zf2-assets-bundle": "dev-master",
         "neilime/zf2-twb-bundle": "dev-master",
         "neilime/zf2-tree-layout-stack": "dev-master",
+       	"twitter/bootstrap": "dev-master",
         "fortawesome/font-awesome": "dev-master",
-        "fabiomcosta/mootools-meio-mask": "dev-master",
-        "arian/iFrameFormRequest": "dev-master",
-       	"nak5ive/Form.PasswordStrength": "dev-master",
-       	"twitter/bootstrap": "dev-master"
+        "fabiomcosta/mootools-meio-mask": "*",
+        "arian/iFrameFormRequest": "*",
+       	"nak5ive/Form.PasswordStrength": "*"
     },
     "require-dev":{
     	"zf2-boiler-app/app-test": "dev-master",
