@@ -15,7 +15,7 @@ return array(
 						'options' => array(
 							'route' => '/segment[/:segment]',
 							'defaults' => array(
-								'controller' => 'Test\Controller\Test',
+								'controller' => 'BoilerAppDisplayTest\Controller\Sample',
 								'action' => 'segment'
 							)
 						)
@@ -25,13 +25,28 @@ return array(
 						'options' => array(
 							'route' => '/literal',
 							'defaults' => array(
-								'controller' => 'Test\Controller\Test',
+								'controller' => 'BoilerAppDisplayTest\Controller\Sample',
 								'action' => 'literal'
 							)
 						)
 					)
 				)
+			),
+			'Error' => array(
+				'type' => 'Zend\Mvc\Router\Http\Literal',
+				'options' => array(
+					'route' => '/error',
+					'defaults' => array(
+						'controller' => 'BoilerAppDisplayTest\Controller\Sample',
+						'action' => 'error'
+					)
+				)
 			)
+		)
+	),
+	'controllers' => array(
+		'invokables' => array(
+			'BoilerAppDisplayTest\Controller\Sample' => 'BoilerAppDisplayTest\Controller\SampleController',
 		)
 	)
 );

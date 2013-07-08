@@ -24,12 +24,12 @@ class JsControllerHelperTest extends \BoilerAppTest\PHPUnit\TestCase\AbstractTes
 				'Test' => '/test',
 				'Test/Literal' => '/test/literal',
 				'Test/Segment' => '/test/segment',
-				'jscustom' => '/jscustom'
+				'jscustom' => '/jscustom',
+				'Error' => '/error'
 			),
 			$this->jsControllerHelper->getRoutes()
 		);
 	}
-
 
 	/**
 	 * @expectedException LogicException

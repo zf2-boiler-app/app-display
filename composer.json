@@ -38,11 +38,7 @@
                 "name": "nak5ive/Form.PasswordStrength",
                 "source": {"url": "https://github.com/nak5ive/Form.PasswordStrength.git","type": "git","reference": "master"}
             }
-        },
-        {
-	        "type": "vcs",
-	        "url": "http://github.com/neilime/lessphp"
-	    }
+        }
     ],
     "require": {
         "php": ">=5.3.3",
@@ -71,5 +67,8 @@
         "branch-alias": {
             "dev-master": "1.0-dev"
         }
+    },
+    "config": {
+        "process-timeout": 3000
     }
 }
