@@ -45,20 +45,6 @@ Bootstrap.Popup.implement({
 	}
 });
 
-Class.refactor(Bootstrap.Popup,{
-	_makeMask: function(){
-		if(this.options.mask){
-			if(!this._mask){
-				this._mask = new Element('div.modal-backdrop');
-				if(this.options.closeOnClickOut)document.id(this._mask).addEvent('click',this.bound.hide);
-				if(this._checkAnimate())this._mask.addClass('fade');
-			}
-		}
-		else if(this.options.closeOnClickOut)document.id(document.body).addEvent('click', this.bound.hide);
-		return this;
-	}
-});
-
 (function(){
 	Behavior.addGlobalFilters({
 		'BS.DismissPopup': {

@@ -1,6 +1,6 @@
 
 //This library: http://dev.clientcide.com/depender/build?download=true&version=MooTools+Bootstrap&excludeLibs=Core&require=Bootstrap%2FBehavior.BS.Alert&require=Bootstrap%2FBehavior.BS.Dropdown&require=Bootstrap%2FBehavior.BS.FormValidator&require=Bootstrap%2FBehavior.BS.Popover&require=Bootstrap%2FBehavior.BS.Popup.FormRequest&require=Bootstrap%2FBehavior.Popup&require=Bootstrap%2FBehavior.BS.Tabs&require=Bootstrap%2FBehavior.BS.Tooltip&require=Bootstrap%2FBootstrap.Dropdown&require=Bootstrap%2FBootstrap.Popover&require=Bootstrap%2FPopup&require=Bootstrap%2FBootstrap.Tooltip&require=Bootstrap%2FBootstrap&require=Bootstrap%2FCSSEvents&require=Bootstrap%2FDelegator.BS.ShowPopup&excludeLibs=More
-//Contents: Behavior:Source/Event.Mock.js, Behavior:Source/Element.Data.js, Behavior:Source/BehaviorAPI.js, Behavior:Source/Behavior.js, Behavior:Source/Delegator.js, More-Behaviors:Source/Delegators/Delegator.FxReveal.js, Bootstrap:Source/Behaviors/Behavior.BS.Alert.js, Bootstrap:Source/UI/Bootstrap.js, Bootstrap:Source/UI/CSSEvents.js, Bootstrap:Source/UI/Bootstrap.Tooltip.js, Bootstrap:Source/UI/Bootstrap.Dropdown.js, Bootstrap:Source/Behaviors/Behavior.BS.Dropdown.js, Clientcide:Source/Layout/TabSwapper.js, Clientcide:Source/Behaviors/Behavior.Tabs.js, Bootstrap:Source/Behaviors/Behavior.BS.Tabs.js, Bootstrap:Source/UI/Bootstrap.Popup.js, Bootstrap:Source/Behaviors/Behavior.BS.Popup.js, Bootstrap:Source/Behaviors/Behavior.BS.Popup.FormRequest.js, Bootstrap:Source/UI/Delegator.BS.ShowPopup.js, Bootstrap:Source/UI/Bootstrap.Popover.js, Bootstrap:Source/Behaviors/Behavior.BS.Popover.js, More-Behaviors:Source/Forms/Behavior.FormValidator.js, Bootstrap:Source/Behaviors/Behavior.BS.FormValidator.js, Bootstrap:Source/Behaviors/Behavior.BS.Tooltip.js
+//Contents: Behavior:Source/Event.Mock.js, Behavior:Source/Element.Data.js, Behavior:Source/BehaviorAPI.js, Behavior:Source/Behavior.js, Behavior:Source/Delegator.js, More-Behaviors:Source/Delegators/Delegator.FxReveal.js, Bootstrap:Source/Behaviors/Behavior.BS.Alert.js, Bootstrap:Source/UI/Bootstrap.js, Bootstrap:Source/UI/CSSEvents.js, Bootstrap:Source/UI/Bootstrap.Tooltip.js, Bootstrap:Source/UI/Bootstrap.Dropdown.js, Bootstrap:Source/Behaviors/Behavior.BS.Dropdown.js, Clientcide:Source/Layout/TabSwapper.js, Clientcide:Source/Behaviors/Behavior.Tabs.js, Bootstrap:Source/Behaviors/Behavior.BS.Tabs.js, More-Behaviors:Source/Forms/Behavior.FormRequest.js, Bootstrap:Source/UI/Bootstrap.Popup.js, Bootstrap:Source/Behaviors/Behavior.BS.Popup.js, Bootstrap:Source/Behaviors/Behavior.BS.Popup.FormRequest.js, Bootstrap:Source/UI/Delegator.BS.ShowPopup.js, Bootstrap:Source/UI/Bootstrap.Popover.js, Bootstrap:Source/Behaviors/Behavior.BS.Popover.js, More-Behaviors:Source/Forms/Behavior.FormValidator.js, Bootstrap:Source/Behaviors/Behavior.BS.FormValidator.js, Bootstrap:Source/Behaviors/Behavior.BS.Tooltip.js
 
 // Begin: Source/Event.Mock.js
 /*
@@ -145,7 +145,8 @@ provides: [BehaviorAPI]
 (function(){
 	//see Docs/BehaviorAPI.md for documentation of public methods.
 
-	var reggy = /[^a-z0-9\-]/gi;
+	var reggy = /[^a-z0-9\-]/gi,
+	    dots = /\./g;
 
 	window.BehaviorAPI = new Class({
 		element: null,
@@ -154,7 +155,7 @@ provides: [BehaviorAPI]
 
 		initialize: function(element, prefix){
 			this.element = element;
-			this.prefix = prefix.toLowerCase().replace('.', '-', 'g').replace(reggy, '');
+			this.prefix = prefix.toLowerCase().replace(dots, '-').replace(reggy, '');
 		},
 
 		/******************
@@ -354,6 +355,7 @@ provides: [Behavior]
 			// container: document.body,
 
 			//default error behavior when a filter cannot be applied
+			onLog: getLog('info'),
 			onError: getLog('error'),
 			onWarn: getLog('warn'),
 			enableDeprecation: true,
@@ -427,7 +429,10 @@ provides: [Behavior]
 						}
 					}
 				}, this);
-				plugins.each(function(plugin){ plugin(); });
+				plugins.each(function(plugin){
+					if (this.options.verbose) this.fireEvent('log', ['Firing plugin...']);
+					plugin();
+				}, this);
 			}, this);
 			return this;
 		},
@@ -488,7 +493,7 @@ provides: [Behavior]
 				try {
 					pluginsToReturn = this._applyFilter.apply(this, arguments);
 				} catch (e){
-					this.fireEvent('error', ['Could not apply the behavior ' + filter.name, e]);
+					this.fireEvent('error', ['Could not apply the behavior ' + filter.name, e.message]);
 				}
 			}
 			return _returnPlugins ? pluginsToReturn : this;
@@ -502,6 +507,7 @@ provides: [Behavior]
 			var applied = getApplied(element);
 			//if this filter is not yet applied to the element, or we are forcing the filter
 			if (!applied[filter.name] || force){
+				if (this.options.verbose) this.fireEvent('log', ['Applying behavior: ', filter.name, element]);
 				//if it was previously applied, garbage collect it
 				if (applied[filter.name]) applied[filter.name].cleanup(element);
 				var api = new this.API(element, filter.name);
@@ -525,11 +531,17 @@ provides: [Behavior]
 				if (filter.config.defaults) api.setDefault(filter.config.defaults);
 
 				//apply the filter
+				if (Behavior.debugging && Behavior.debugging.contains(filter.name)) debugger;
 				var result = filter.setup(element, api, _pluginTargetResult);
 				if (filter.config.returns && !instanceOf(result, filter.config.returns)){
 					throw new Error("Filter " + filter.name + " did not return a valid instance.");
 				}
 				element.store('Behavior Filter result:' + filter.name, result);
+				if (this.options.verbose){
+					if (result && !_pluginTargetResult) this.fireEvent('log', ['Successfully applied behavior: ', filter.name, element, result]);
+					else this.fireEvent('warn', ['Behavior applied, but did not return result: ', filter.name, element, result]);
+				}
+
 				//and mark it as having been previously applied
 				applied[filter.name] = filter;
 				//apply all the plugins for this filter
@@ -741,6 +753,11 @@ provides: [Behavior]
 
 	});
 
+	Behavior.debug = function(name){
+		if (!Behavior.debugging) Behavior.debugging = [];
+		Behavior.debugging.push(name);
+	};
+
 	Behavior.elementDataProperty = 'behavior';
 
 	Element.implement({
@@ -807,6 +824,7 @@ provides: [Delegator]
 			// breakOnErrors: false,
 			// onTrigger: function(trigger, element, event, result){},
 			getBehavior: function(){},
+			onLog: Behavior.getLog('info'),
 			onError: Behavior.getLog('error'),
 			onWarn: Behavior.getLog('warn')
 		},
@@ -849,6 +867,7 @@ provides: [Delegator]
 			if (!behavior) return;
 			this.unbindFromBehavior();
 			this._behavior = behavior;
+			if (this._behavior.options.verbose) this.options.verbose = true;
 			if (!this._behaviorEvents){
 				var self = this;
 				this._behaviorEvents = {
@@ -902,22 +921,25 @@ provides: [Delegator]
 		trigger: function(name, element, event){
 			var e = event;
 			if (!e || typeOf(e) == "string") e = new Event.Mock(element, e);
-
-			var trigger = this.getTrigger(name);
+			if (this.options.verbose) this.fireEvent('log', ['Applying trigger: ', name, element, event]);
+			var result,
+					trigger = this.getTrigger(name);
 			if (!trigger){
 				this.fireEvent('warn', 'Could not find a trigger by the name of ' + name);
 			} else if (checkEvent(trigger, element, e)) {
 				if (this.options.breakOnErrors){
-					this._trigger(trigger, element, e);
+					result = this._trigger(trigger, element, e);
 				} else {
 					try {
-						this._trigger(trigger, element, e);
+						result = this._trigger(trigger, element, e);
 					} catch(error) {
-						this.fireEvent('error', ['Could not apply the trigger', name, error]);
+						this.fireEvent('error', ['Could not apply the trigger', name, error.message]);
 					}
 				}
 			}
-			return this;
+			if (this.options.verbose && result) this.fireEvent('log', ['Successfully applied trigger: ', name, element, event]);
+			else if (this.options.verbose) this.fireEvent('log', ['Trigger applied, but did not return a result: ', name, element, event]);
+			return result;
 		},
 
 		getTrigger: function(name){
@@ -942,8 +964,10 @@ provides: [Delegator]
 			} if (trigger.defaults){
 				api.setDefault(trigger.defaults);
 			}
+			if (Delegator.debugging && Delegator.debugging.contains(name)) debugger;
 			var result = trigger.handler.apply(this, [event, element, api]);
 			this.fireEvent('trigger', [trigger, element, event, result]);
+			return result;
 		},
 
 		_eventHandler: function(event, target){
@@ -1012,6 +1036,11 @@ provides: [Delegator]
 	Delegator.addEventTypes = function(triggerName, types){
 		this.getTrigger(triggerName).types.combine(Array.from(types));
 		return this;
+	};
+
+	Delegator.debug = function(name){
+		if (!Delegator.debugging) Delegator.debugging = [];
+		Delegator.debugging.push(name);
 	};
 
 
@@ -1422,7 +1451,12 @@ Bootstrap.Dropdown = new Class({
 		var open = el.getParent('.open');
 		if (!el.match(this.options.ignore) || !open) this.hideAll();
 		if (this.element.contains(el)) {
-			var parent = el.match('.dropdown-toggle') ? el.getParent() : el.getParent('.dropdown-toggle');
+            var parent = null;
+            if (el.match('[data-toggle="dropdown"]') || el.getParent('[data-toggle="dropdown"] !')) {
+                parent = el.getParent('.dropdown, .btn-group');
+            }
+            // backwards compatibility
+            if (!parent) parent = el.match('.dropdown-toggle') ? el.getParent() : el.getParent('.dropdown-toggle !');
 			if (parent) {
 				e.preventDefault();
 				if (!open) this.show(parent);
@@ -1798,32 +1832,6 @@ provides: [Behavior.BS.Tabs]
 
 	// this plugin makes links that have #href targets select their target tabs
 	Behavior.addGlobalPlugin('BS.Tabs', 'BS.Tabs.TargetLinks', function(el, api, instance){
-		// get the element to delegate clicks to - defaults to the container
-		var target = el;
-		var tabAPI = new BehaviorAPI(el, 'BS.Tabs');
-		if (tabAPI.get('delegationTarget')) target = el.getElement(tabAPI.get('delegationTarget'));
-		if (!target) api.fail('Could not find delegation target for tabs');
-
-		//find all the sections
-		var sections = instance.tabs.map(function(tab){
-			return tab.retrieve('section');
-		});
-
-		// delegate watching click events for any element with an #href
-		target.addEvent('click:relay([href^=#])', function(event, link){
-			if (link.get('href') == "#") return;
-			// attempt to find the target for the link within the page
-			var target = el.getElement(link.get('href'));
-			// if the target IS a tab, do nothing; valid targets are *sections*
-			if (instance.tabs.contains(target)) return;
-			// if no target was found at all, warn
-			if (!target) api.warn('Could not switch tab; no section found for ' + link.get('href'));
-			// if the target is a section, show it.
-			if (sections.contains(target)) {
-				event.preventDefault();
-				instance.show(sections.indexOf(target));
-			}
-		});
 		// whenever the instance activates a tab, find any related #href links and add `active-section-link` to the appropriate ones
 		instance.addEvent('active', function(index, section, tab){
 			document.body.getElements('.active-section-link').removeClass('active-section-link');
@@ -1842,6 +1850,50 @@ provides: [Behavior.BS.Tabs]
 	});
 
 })();
+
+// Begin: Source/Forms/Behavior.FormRequest.js
+/*
+---
+description: Makes form elements with a FormRequest data filter automatically update via Ajax.
+provides: [Behavior.FormRequest]
+requires: [Behavior/Behavior, More/Form.Request, Behavior/Element.Data]
+script: Behavior.FormRequest.js
+name: Behavior.FormRequest
+...
+*/
+
+Behavior.addGlobalFilter('FormRequest', {
+	defaults: {
+		resetForm: true
+	},
+	setup: function(element, api){
+		var updateElement,
+		    update = api.get('update'),
+		    spinner = api.get('spinner');
+		if (update =="self") updateElement = element;
+		else updateElement = element.getElement(update);
+
+		if (spinner == "self") spinner = element;
+		else if (spinner) spinner = element.getElement(spinner);
+		else spinner = updateElement;
+
+		if (!updateElement) api.fail('Could not find target element for form update');
+
+		var req = new Form.Request(element, updateElement, {
+			requestOptions: {
+				filter: api.get('filter'),
+				spinnerTarget: spinner
+			},
+			resetForm: api.get('resetForm') || /* noReset is deprecated: */ !element.hasClass('noReset')
+		}).addEvent('complete', function(){
+			api.applyFilters(updateElement);
+		});
+		api.onCleanup(req.detach.bind(req));
+		return req;
+	}
+
+});
+
 
 // Begin: Source/UI/Bootstrap.Popup.js
 /*
@@ -1921,10 +1973,10 @@ Bootstrap.Popup = new Class({
 		var check = this.options.animate !== false && Browser.Features.getCSSTransition() && (this.options.animate || this.element.hasClass('fade'));
 		if (!check) {
 			this.element.removeClass('fade').addClass('hide');
-			this._mask.removeClass('fade').addClass('hide');
+			if (this._mask) this._mask.removeClass('fade').addClass('hide');
 		} else if (check) {
 			this.element.addClass('fade').removeClass('hide');
-			this._mask.addClass('fade').removeClass('hide');
+			if (this._mask) this._mask.addClass('fade').removeClass('hide');
 		}
 		return check;
 	},
@@ -1934,16 +1986,16 @@ Bootstrap.Popup = new Class({
 		this.element.addEvent('click:relay(.close, .dismiss)', this.bound.hide);
 		if (this.options.closeOnEsc) document.addEvent('keyup', this.bound.keyMonitor);
 		this._makeMask();
-		this._mask.inject(document.body);
+		if (this._mask) this._mask.inject(document.body);
 		this.animating = true;
 		if (this.options.changeDisplayValue) this.element.show();
 		if (this._checkAnimate()){
 			this.element.offsetWidth; // force reflow
 			this.element.addClass('in');
-			this._mask.addClass('in');
+			if (this._mask) this._mask.addClass('in');
 		} else {
 			this.element.show();
-			this._mask.show();
+			if (this._mask) this._mask.show();
 		}
 		this.visible = true;
 		this._watch();
@@ -1964,14 +2016,14 @@ Bootstrap.Popup = new Class({
 			if (this.options.changeDisplayValue) this.element.hide();
 			if (!this.options.persist){
 				this.destroy();
-			} else {
+			} else if (this._mask) {
 				this._mask.dispose();
 			}
 		}
 	},
 
 	destroy: function(){
-		this._mask.destroy();
+		if (this._mask) this._mask.destroy();
 		this.fireEvent('destroy', this.element);
 		this.element.destroy();
 		this._mask = null;
@@ -1994,10 +2046,10 @@ Bootstrap.Popup = new Class({
 
 		if (this._checkAnimate()){
 			this.element.removeClass('in');
-			this._mask.removeClass('in');
+			if (this._mask) this._mask.removeClass('in');
 		} else {
 			this.element.hide();
-			this._mask.hide();
+			if (this._mask) this._mask.hide();
 		}
 		this.visible = false;
 		this._watch();
@@ -2045,7 +2097,7 @@ provides: [Behavior.BS.Popup]
 Behavior.addGlobalFilters({
 	'BS.Popup': {
 		defaults: {
-			focusOnShow: "input[type=text], select, textarea",
+			focusOnShow: "input[type=text], select, textarea, .modal-footer .btn-primary, .modal-footer .btn",
 			hide: false,
 			animate: true,
 			closeOnEsc: true,
@@ -2069,12 +2121,10 @@ Behavior.addGlobalFilters({
 			popup.addEvent('destroy', function(){
 				api.cleanup(el);
 			});
-			if (api.get('focusOnShow')) {
-				popup.addEvent('show', function(){
-					var input = document.id(popup).getElement(api.get('focusOnShow'));
-					if (input) input.select();
-				});
-			}
+			popup.addEvent('show', function(){
+				var focus = document.id(popup).getElement(api.get('focusOnShow'));
+				if (focus) focus.select();
+			});
 			if (!el.hasClass('hide') && !api.getAs(Boolean, 'hide') && (!el.hasClass('in') && !el.hasClass('fade'))) {
 				popup.show();
 			}
@@ -2096,8 +2146,8 @@ license: MIT-style license.
 authors: [Aaron Newton]
 
 requires:
+ - More-Behaviors/Behavior.FormRequest
  - /Behavior.BS.Popup
- - More/Form.Request
 
 provides: [Behavior.BS.Popup.FormRequest]
 
@@ -2262,7 +2312,9 @@ Behavior.addGlobalFilters({
 	'BS.Popover': {
 		defaults: {
 			contentElement: null,
+			cloneContent: false,
 			titleElement: null,
+			cloneTitle: false,
 		  onOverflow: false,
 			location: 'right', //below, left, right
 			animate: true,
@@ -2291,6 +2343,7 @@ Behavior.addGlobalFilters({
 				if (api.get(which + 'Element')) {
 					var target = el.getElement(api.get(which + 'Element'));
 					if (!target) api.fail('could not find ' + which + ' for popup');
+					if (api.get('clone' + which.capitalize())) target = target.clone(true, true);
 					return target.setStyle('display', 'block');
 				} else {
 					return api.get(which) || el.get(which);
@@ -2335,25 +2388,27 @@ Behavior.addGlobalFilter('FormValidator', {
 	},
 	setup: function(element, api) {
 		//instantiate the form validator
-		var validator = element.retrieve('validator',new Form.Validator.Inline(element,
-			Object.cleanValues(
-				api.getAs({
-					useTitles: Boolean,
-					scrollToErrorsOnSubmit: Boolean,
-					scrollToErrorsOnBlur: Boolean,
-					scrollToErrorsOnChange: Boolean,
-					ignoreHidden: Boolean,
-					ignoreDisabled: Boolean,
-					useTitles: Boolean,
-					evaluateOnSubmit: Boolean,
-					evaluateFieldsOnBlur: Boolean,
-					evaluateFieldsOnChange: Boolean,
-					serial: Boolean,
-					stopOnFailure: Boolean
-				})
-			)
-		));
-		
+		var validator = element.retrieve('validator');
+		if (!validator) {
+			validator = new Form.Validator.Inline(element,
+				Object.cleanValues(
+					api.getAs({
+						useTitles: Boolean,
+						scrollToErrorsOnSubmit: Boolean,
+						scrollToErrorsOnBlur: Boolean,
+						scrollToErrorsOnChange: Boolean,
+						ignoreHidden: Boolean,
+						ignoreDisabled: Boolean,
+						useTitles: Boolean,
+						evaluateOnSubmit: Boolean,
+						evaluateFieldsOnBlur: Boolean,
+						evaluateFieldsOnChange: Boolean,
+						serial: Boolean,
+						stopOnFailure: Boolean
+					})
+				)
+			);
+		}
 		//if the api provides a getScroller method, which should return an instance of
 		//Fx.Scroll, use it instead
 		if (api.getScroller) {
@@ -2421,7 +2476,6 @@ provides: [Behavior.BS.FormValidator]
 				showError: function(){},
 				hideError: function(){}
 			});
-			instance.warningPrefix = '';
 			instance.errorPrefix = '';
 			instance.addEvents({
 				showAdvice: function(field, advice, className){
@@ -2432,11 +2486,11 @@ provides: [Behavior.BS.FormValidator]
 						field.addClass(fieldDetails.cls);
 						var help = fieldDetails.inputParent.getElement('div.advice');
 						if (!help){
-							var eParent = field.getParent();
 							fieldDetails.inputParent.getElements('span.help-inline').setStyle('display', 'none');
+							var closestParent = field.getParent();
 							help = new Element('span.help-inline.advice.auto-created', {
 								html: (field.hasClass('warning') ? 'Suggestion: ' : '') + advice.get('html')
-							}).hide().inject(eParent.hasClass('input-append')?eParent:field,'after');
+							}).hide().inject(closestParent.hasClass('input-append') ? closestParent  : field, 'after');
 						}
 						help.set('html', (field.hasClass('warning') ? 'Suggestion: ' : '') + advice.get('html')).reveal();
 						help.removeClass('hide');
