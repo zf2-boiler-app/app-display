@@ -5,7 +5,7 @@ return array(
 	'cacheUrl' => '@zfBaseUrl/assets/cache/',
 	'assets' => array(
 		'less' => array(
-			'@zfRootPath/vendor/twitter/bootstrap/less/bootstrap.less',
+			'@zfRootPath/vendor/todc/todc-bootstrap/less/todc-bootstrap.less',
 			'@zfRootPath/vendor/fortawesome/font-awesome/less/font-awesome.less',
 			__DIR__ . '/../assets/less/bootstrap-custom.less',
 			__DIR__ . '/../assets/less/global.less'
@@ -27,7 +27,7 @@ return array(
 		'media' => array(
 			'@zfRootPath/vendor/fortawesome/font-awesome/font',
 			__DIR__ . '/../assets/images',
-			'@zfRootPath/vendor/twitter/bootstrap/img'
+			'@zfRootPath/vendor/todc/todc-bootstrap/img'
 		)
 	)
 );

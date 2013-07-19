@@ -61,6 +61,8 @@ class FormHelperTest extends \BoilerAppTest\PHPUnit\TestCase\AbstractTestCase{
 		$oRequest->setAccessible(true);
 		$oRequest->setValue($this->formHelper, null);
 
+		$this->formHelper->getServiceLocator()->getServiceLocator()->setAllowOverride(true)->setService('Request',null)->setAllowOverride(false);
+
 		$oGetRequest = $oReflectionClass->getMethod('getRequest');
 		$oGetRequest->setAccessible(true);
 		$oGetRequest->invokeArgs($this->formHelper,array());

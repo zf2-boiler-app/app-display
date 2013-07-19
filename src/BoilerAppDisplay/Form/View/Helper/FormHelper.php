@@ -19,12 +19,12 @@ class FormHelper extends \TwbBundle\Form\View\Helper\TwbBundleForm implements \Z
 	 */
 	protected function getRequest(){
 		if($this->request instanceof \Zend\Http\Request)return $this->request;
-		if(($oRequest = $this->getServiceLocator()->getServiceLocator()->get('Request')) instanceof \Zend\Http\Request){
+		$oServiceManager = $this->getServiceLocator()->getServiceLocator();
+		if($oServiceManager->has('Request') && ($oRequest = $oServiceManager->get('Request')) instanceof \Zend\Http\Request){
 			$this->setRequest($oRequest);
 			return $this->request;
 		}
-		else throw new \LogicException('Request is undefined');
-
+		throw new \LogicException('Request is undefined');
 	}
 
 	/**
