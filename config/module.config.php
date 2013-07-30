@@ -11,7 +11,8 @@ return array(
 	),
 	'service_manager' => array(
 		'factories' => array(
-			'Translator' => 'BoilerAppDisplay\Factory\TranslatorFactory'
+			'Translator' => 'BoilerAppDisplay\Factory\TranslatorFactory',
+			'MvcTranslator' => 'BoilerAppDisplay\Factory\TranslatorFactory'
 		)
 	),
 	'view_helpers' => array(
