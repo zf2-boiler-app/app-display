@@ -26,8 +26,7 @@ return array(
 		),
 		'media' => array(
 			'@zfRootPath/vendor/fortawesome/font-awesome/font',
-			__DIR__ . '/../assets/images',
-			'@zfRootPath/vendor/todc/todc-bootstrap/img'
+			__DIR__ . '/../assets/images'
 		)
 	)
 );
