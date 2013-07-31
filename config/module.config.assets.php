@@ -5,6 +5,7 @@ return array(
 	'cacheUrl' => '@zfBaseUrl/assets/cache/',
 	'assets' => array(
 		'less' => array(
+			'@zfRootPath/vendor/twbs/bootstrap/less/mixins.less',
 			'@zfRootPath/vendor/todc/todc-bootstrap/less/todc-bootstrap.less',
 			'@zfRootPath/vendor/fortawesome/font-awesome/less/font-awesome.less',
 			__DIR__ . '/../assets/less/bootstrap-custom.less',
