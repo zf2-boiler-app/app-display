@@ -51,8 +51,7 @@
         "fabiomcosta/mootools-meio-mask": "dev-master",
         "arian/iFrameFormRequest": "dev-master",
        	"nak5ive/Form.PasswordStrength": "dev-master",
-       	"twbs/bootstrap": "dev-master",
-       	"todc/todc-bootstrap": "dev-master"
+       	"twbs/bootstrap": "dev-master"
     },
     "require-dev":{
     	"zf2-boiler-app/app-test": "dev-master",
