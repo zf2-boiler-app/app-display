@@ -2,6 +2,8 @@ ZF2 Boiler-App "Display" module
 =====================
 
 [![Build Status](https://travis-ci.org/zf2-boiler-app/app-display.png?branch=master)](https://travis-ci.org/zf2-boiler-app/app-display)
+[![Latest Stable Version](https://poser.pugx.org/zf2-boiler-app/app-display/v/stable.png)](https://packagist.org/packages/zf2-boiler-app/app-display)
+[![Total Downloads](https://poser.pugx.org/zf2-boiler-app/app-display/downloads.png)](https://packagist.org/packages/zf2-boiler-app/app-display)
 ![Code coverage](https://raw.github.com/zf2-boiler-app/app-test/master/ressources/100%25-code-coverage.png "100% code coverage")
 
 NOTE : This module is in heavy development, it's not usable yet.
